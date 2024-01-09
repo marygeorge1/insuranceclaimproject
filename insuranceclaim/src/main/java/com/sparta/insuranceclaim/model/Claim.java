@@ -1,10 +1,11 @@
 package com.sparta.insuranceclaim.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "claim")
@@ -21,11 +22,13 @@ public class Claim {
     @Size(max = 250)
     @NotNull
     @Column(name = "first_name", nullable = false, length = 250)
+    @NotBlank(message = "First Name cannot be blank")
     private String firstName;
 
     @Size(max = 250)
     @NotNull
     @Column(name = "last_name", nullable = false, length = 250)
+    @NotBlank(message = "Last Name cannot be blank")
     private String lastName;
 
     @Size(max = 250)
@@ -43,7 +46,7 @@ public class Claim {
     private String carRegistration;
 
     @Column(name = "date_of_incident")
-    private Instant dateOfIncident;
+    private LocalDate dateOfIncident;
 
     @Column(name = "previous_claims")
     private Integer previousClaims;
@@ -72,7 +75,7 @@ public class Claim {
     private String imageLink;
 
     @Column(name = "date_of_submission")
-    private Instant dateOfSubmission;
+    private LocalDate dateOfSubmission;
 
     @Size(max = 50)
     @Column(name = "claim_status", length = 50)
@@ -158,13 +161,14 @@ public class Claim {
         this.carRegistration = carRegistration;
     }
 
-    public Instant getDateOfIncident() {
+    public LocalDate getDateOfIncident() {
         return dateOfIncident;
     }
 
-    public void setDateOfIncident(Instant dateOfIncident) {
+    public void setDateOfIncident(LocalDate dateOfIncident) {
         this.dateOfIncident = dateOfIncident;
     }
+
 
     public Integer getPreviousClaims() {
         return previousClaims;
@@ -222,11 +226,11 @@ public class Claim {
         this.imageLink = imageLink;
     }
 
-    public Instant getDateOfSubmission() {
+    public LocalDate getDateOfSubmission() {
         return dateOfSubmission;
     }
 
-    public void setDateOfSubmission(Instant dateOfSubmission) {
+    public void setDateOfSubmission(LocalDate dateOfSubmission) {
         this.dateOfSubmission = dateOfSubmission;
     }
 
