@@ -78,6 +78,30 @@ public class Claim {
     @Column(name = "claim_status", length = 50)
     private String claimStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_agent_id")
+    private User assignedAgent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getAssignedAgent() {
+        return assignedAgent;
+    }
+
+    public void setAssignedAgent(User assignedAgent) {
+        this.assignedAgent = assignedAgent;
+    }
+
     public Integer getId() {
         return id;
     }
