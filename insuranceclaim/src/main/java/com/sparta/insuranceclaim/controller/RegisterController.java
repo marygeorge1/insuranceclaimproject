@@ -36,5 +36,7 @@ public class RegisterController {
 
         User savedUser = userRepository.save(user);
 
+        return "test";
+
     }
 }
