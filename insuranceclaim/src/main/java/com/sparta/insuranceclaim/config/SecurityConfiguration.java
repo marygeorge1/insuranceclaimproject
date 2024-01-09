@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/register","/login")
+                            .requestMatchers("/register","/registration/form","/login")
                             .permitAll();
                     auth
                             .anyRequest()
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 })
                 .formLogin(formLogin -> formLogin
                         //.loginPage("/login")
-                        .successForwardUrl("/homepage"))
+                        .defaultSuccessUrl("/homepage"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .deleteCookies("JSESSIONID"))
