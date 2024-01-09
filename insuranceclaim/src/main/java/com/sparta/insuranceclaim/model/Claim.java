@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "claim")
@@ -43,7 +43,7 @@ public class Claim {
     private String carRegistration;
 
     @Column(name = "date_of_incident")
-    private Instant dateOfIncident;
+    private LocalDate dateOfIncident;
 
     @Column(name = "previous_claims")
     private Integer previousClaims;
@@ -72,7 +72,7 @@ public class Claim {
     private String imageLink;
 
     @Column(name = "date_of_submission")
-    private Instant dateOfSubmission;
+    private LocalDate dateOfSubmission;
 
     @Size(max = 50)
     @Column(name = "claim_status", length = 50)
@@ -158,12 +158,18 @@ public class Claim {
         this.carRegistration = carRegistration;
     }
 
-    public Instant getDateOfIncident() {
+    public LocalDate getDateOfIncident() {
         return dateOfIncident;
     }
-
-    public void setDateOfIncident(Instant dateOfIncident) {
+/*
+    public void setDateOfIncident(LocalDate dateOfIncident) {
         this.dateOfIncident = dateOfIncident;
+    }*/
+    public void setDateOfIncident(String dateString)
+    {
+        System.out.println("setter detected!");
+        this.dateOfIncident = LocalDate.parse(dateString);
+
     }
 
     public Integer getPreviousClaims() {
@@ -222,11 +228,11 @@ public class Claim {
         this.imageLink = imageLink;
     }
 
-    public Instant getDateOfSubmission() {
+    public LocalDate getDateOfSubmission() {
         return dateOfSubmission;
     }
 
-    public void setDateOfSubmission(Instant dateOfSubmission) {
+    public void setDateOfSubmission(LocalDate dateOfSubmission) {
         this.dateOfSubmission = dateOfSubmission;
     }
 
