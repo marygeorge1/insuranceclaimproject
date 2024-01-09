@@ -1,6 +1,7 @@
 package com.sparta.insuranceclaim.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -21,11 +22,13 @@ public class Claim {
     @Size(max = 250)
     @NotNull
     @Column(name = "first_name", nullable = false, length = 250)
+    @NotBlank(message = "First Name cannot be blank")
     private String firstName;
 
     @Size(max = 250)
     @NotNull
     @Column(name = "last_name", nullable = false, length = 250)
+    @NotBlank(message = "Last Name cannot be blank")
     private String lastName;
 
     @Size(max = 250)
@@ -161,16 +164,11 @@ public class Claim {
     public LocalDate getDateOfIncident() {
         return dateOfIncident;
     }
-/*
+
     public void setDateOfIncident(LocalDate dateOfIncident) {
         this.dateOfIncident = dateOfIncident;
-    }*/
-    public void setDateOfIncident(String dateString)
-    {
-        System.out.println("setter detected!");
-        this.dateOfIncident = LocalDate.parse(dateString);
-
     }
+
 
     public Integer getPreviousClaims() {
         return previousClaims;
