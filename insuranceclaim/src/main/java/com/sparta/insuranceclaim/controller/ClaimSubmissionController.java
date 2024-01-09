@@ -23,7 +23,7 @@ public class ClaimSubmissionController {
         return "claimform";
     }
     @PostMapping("/claim/create")
-public String createClaim(@ModelAttribute() Claim claim){
+    public String createClaim(@ModelAttribute() Claim claim){
         claimRepository.save(claim);
         return "claimform";
     }
