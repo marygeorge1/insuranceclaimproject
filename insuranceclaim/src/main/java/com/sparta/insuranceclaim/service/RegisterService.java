@@ -4,6 +4,7 @@ import com.sparta.insuranceclaim.dto.UserDTO;
 import com.sparta.insuranceclaim.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class RegisterService {
     Logger log = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     private PasswordEncoder encoder;
 
     public User createNewUser(UserDTO userDetails) {

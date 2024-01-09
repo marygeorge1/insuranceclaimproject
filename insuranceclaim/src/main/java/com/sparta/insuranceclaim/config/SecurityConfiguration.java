@@ -21,11 +21,16 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth
-                        .anyRequest()
-                        .authenticated())
+        return http.authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers("/register","/login")
+                            .permitAll();
+                    auth
+                            .anyRequest()
+                            .authenticated();
+                })
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
+                        //.loginPage("/login")
                         .successForwardUrl("/homepage"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")

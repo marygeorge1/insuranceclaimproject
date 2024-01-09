@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,8 @@ public class RegisterController {
     UserRepository userRepository;
 
     @GetMapping("/register")
-    public String signUp() {
+    public String signUp(Model model) {
+        model.addAttribute("user", new UserDTO());
         return "user-registration-form";
     }
 
@@ -38,5 +40,10 @@ public class RegisterController {
 
         return "test";
 
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
     }
 }
