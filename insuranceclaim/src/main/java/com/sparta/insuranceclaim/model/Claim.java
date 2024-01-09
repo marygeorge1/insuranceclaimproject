@@ -1,8 +1,7 @@
 package com.sparta.insuranceclaim.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -21,20 +20,25 @@ public class Claim {
     @Size(max = 250)
     @NotNull
     @Column(name = "first_name", nullable = false, length = 250)
+    @NotBlank(message = "*First Name cannot be blank")
     private String firstName;
 
     @Size(max = 250)
     @NotNull
     @Column(name = "last_name", nullable = false, length = 250)
+    @NotBlank(message = "*Last Name cannot be blank")
     private String lastName;
 
     @Size(max = 250)
     @NotNull
     @Column(name = "email", nullable = false, length = 250)
+    @Email(message = "*Email should be in the correct format")
+    @NotBlank(message = "*Email cannot be blank")
     private String email;
 
     @Size(max = 50)
     @Column(name = "phone_number", length = 50)
+    @Pattern(regexp = "[0-9]{10}", message = "*Only numbers are allowed, and should have 10 digits")
     private String phoneNumber;
 
     @Size(max = 50)

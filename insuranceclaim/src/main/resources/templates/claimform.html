@@ -13,7 +13,7 @@
     <h1>Claim Submission Form</h1>
     </div>
     <br>
-    <form th:action="@{/claim/create}" method="post">
+    <form th:action="@{/claim/create}" th:object="${claim}" method="post">
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
@@ -22,19 +22,23 @@
             <div class="col-sm-12"><h3>Driver Details</h3></div>
             <div class="col-sm-12">
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" class="form-control">
+                <input type="text" name="firstName" id="firstName" class="form-control" th:field="*{firstName}">
+                <span  th:if="${#fields.hasErrors('firstName')}" class="error" th:errors="*{firstName}"></span>
             </div>
             <div class="col-sm-12">
                 <label for="lastName">Last Name</label>
                 <input type="text" name="lastName" id="lastName" class="form-control">
+                <span  th:if="${#fields.hasErrors('lastName')}" class="error" th:errors="*{lastName}"></span>
             </div>
             <div class="col-sm-12">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" class="form-control">
+                <span  th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}"></span>
             </div>
             <div class="col-sm-12">
                 <label for="phoneNumber">Phone Number</label>
                 <input type="text" name="phoneNumber" id="phoneNumber" class="form-control">
+                <span  th:if="${#fields.hasErrors('phoneNumber')}" class="error" th:errors="*{phoneNumber}"></span>
             </div>
         </div>
             <!--Driver Details Section ends here-->
