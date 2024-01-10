@@ -39,6 +39,6 @@ private ClaimService claimService;
         }
         claimService.addClaim(claim);
         return "claimform";
-        
+
     }
 }

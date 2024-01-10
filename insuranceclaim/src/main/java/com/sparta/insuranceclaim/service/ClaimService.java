@@ -34,6 +34,7 @@ refferenceNo+= claim.getCarRegistration().substring(0,3);
     public void  addClaim (Claim claim) {
         claim.setDateOfSubmission(LocalDate.now());
         claim.setReferenceId(generateRefferenceNumber(claim));
+        claim.setClaimStatus("submitted");
         claimRepository.save(claim);
     }
 }
