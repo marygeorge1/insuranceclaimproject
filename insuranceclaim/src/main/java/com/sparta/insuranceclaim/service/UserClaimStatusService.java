@@ -16,6 +16,11 @@ public class UserClaimStatusService {
     private ClaimRepository claimRepository;
 
     public List<Claim> getAllClaimByLoggedInUser(User loggedInUser){
+
         return claimRepository.findByUser(loggedInUser);
+    }
+
+    public Claim getClaimById(Integer id){
+        return claimRepository.findById(id).get();
     }
 }

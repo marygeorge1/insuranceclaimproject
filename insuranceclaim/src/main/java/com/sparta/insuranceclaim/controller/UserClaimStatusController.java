@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -24,13 +25,18 @@ public class UserClaimStatusController {
     @GetMapping("/all-claims")
     public String getAllClaims(Model model, Authentication authentication){
 
-        System.out.println(((User)(authentication.getPrincipal())).getUsername());
         User loggedInUser=(User)authentication.getPrincipal();
         List<Claim> submittedClaims=userClaimStatusService.getAllClaimByLoggedInUser(loggedInUser);
-        System.out.println(submittedClaims);
         model.addAttribute("claims",submittedClaims);
         return "user-claims";
 
+    }
+
+    @GetMapping("/claims/{claimId}")
+    public String showClaimDetails(@PathVariable Integer claimId,Model model){
+        Claim claim=userClaimStatusService.getClaimById(claimId);
+        model.addAttribute("claim",claim);
+        return "user-claim-details";
     }
 
 }
