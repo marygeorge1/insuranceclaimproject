@@ -30,7 +30,8 @@ public class SecurityConfiguration {
                             .authenticated();
                 })
                 .formLogin(formLogin -> formLogin
-                        //.loginPage("/login")
+                        .loginPage("/login")
+                        .loginProcessingUrl("/perform_login")
                         .defaultSuccessUrl("/homepage"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
