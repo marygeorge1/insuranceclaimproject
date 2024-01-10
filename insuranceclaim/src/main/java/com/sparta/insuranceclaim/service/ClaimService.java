@@ -1,6 +1,7 @@
 package com.sparta.insuranceclaim.service;
 
 import com.sparta.insuranceclaim.model.Claim;
+import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,11 @@ refferenceNo+= claim.getCarRegistration().substring(0,3);
 
        return refferenceNo;
     }
-    public void  addClaim (Claim claim) {
+    public void  addClaim (Claim claim, User loggedInUser) {
         claim.setDateOfSubmission(LocalDate.now());
         claim.setReferenceId(generateRefferenceNumber(claim));
         claim.setClaimStatus("submitted");
+        claim.setUser(loggedInUser);
         claimRepository.save(claim);
     }
 }
