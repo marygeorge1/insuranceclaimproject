@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @GetMapping("/homepage")
-    public String goHome() {
-        return "homepage";
-    }
-
     @GetMapping("/login")
     public String login(@RequestParam(name="logout", required = false) String loggedOut
             , @RequestParam(name="error", required = false) String loginFailed, Model model) {
@@ -25,4 +20,23 @@ public class LoginController {
 
         return "login";
     }
+
+    @GetMapping("/homepage/user")
+    public String userHomepage() {
+        return "homepage";
+    }
+
+    @GetMapping("/homepage/admin")
+    public String adminHomepage() {
+        return "admin-homepage";
+    }
+
+    @GetMapping("/homepage/agent")
+    public String agentHomepage() {
+        return "agent-homepage";
+    }
+
+
+
+
 }
