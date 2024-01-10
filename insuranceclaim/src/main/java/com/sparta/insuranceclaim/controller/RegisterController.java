@@ -38,12 +38,6 @@ public class RegisterController {
 
         User savedUser = userRepository.save(user);
 
-        return "test";
-
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+        return "homepage";
     }
 }
