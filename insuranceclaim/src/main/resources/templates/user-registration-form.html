@@ -23,7 +23,7 @@
     }
 </style>
 <body>
-<h1>Create Book</h1>
+<h1>Create New User</h1>
 <form th:action="@{/registration/form}" th:object="${user}" method="post">
     <label for="username">Email</label>
     <input type="text" id="username" name="username" th:field="*{username}"/><br/>
@@ -31,5 +31,6 @@
     <input type="text" id="password" name="password" th:field="*{password}"/><br/>
     <input type="submit" value="Register"/>
 </form>
+<div th:if="${userExists}">Email already registered!</div>
 </body>
 </html>
