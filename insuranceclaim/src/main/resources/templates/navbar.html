@@ -18,7 +18,9 @@
         </ul>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Logout"/>
+                </form>
             </li>
         </ul>
     </div>
