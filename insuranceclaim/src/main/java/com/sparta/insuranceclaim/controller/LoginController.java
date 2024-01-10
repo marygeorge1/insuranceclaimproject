@@ -1,5 +1,6 @@
 package com.sparta.insuranceclaim.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +22,19 @@ public class LoginController {
         return "login";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/homepage/user")
     public String userHomepage() {
         return "homepage";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/homepage/admin")
     public String adminHomepage() {
         return "admin-homepage";
     }
 
+    @PreAuthorize("hasRole('ROLE_AGENT')")
     @GetMapping("/homepage/agent")
     public String agentHomepage() {
         return "agent-homepage";
