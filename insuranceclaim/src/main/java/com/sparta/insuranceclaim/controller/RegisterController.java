@@ -36,8 +36,8 @@ public class RegisterController {
         log.info("New user is being created");
         User user = registerService.createNewUser(userDetails);
 
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
-        return "homepage";
+        return "redirect:/login";
     }
 }
