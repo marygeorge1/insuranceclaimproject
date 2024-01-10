@@ -31,5 +31,6 @@
     <input type="text" id="password" name="password" th:field="*{password}"/><br/>
     <input type="submit" value="Register"/>
 </form>
+<div th:if="${userExists}">Email already registered!</div>
 </body>
 </html>

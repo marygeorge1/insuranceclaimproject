@@ -14,5 +14,7 @@
     <input type="submit" value="Login"/>
 </form>
 <a th:href="@{/register}">Register New User</a>
+<div th:if="${logoutMessage}">You have been logged out!</div>
+<div th:if="${incorrectDetails}">Login failed, incorrect email and password!</div>
 </body>
 </html>

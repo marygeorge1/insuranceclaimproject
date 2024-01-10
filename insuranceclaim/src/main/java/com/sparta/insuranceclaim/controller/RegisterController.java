@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 @Controller
 public class RegisterController {
     Logger log = LoggerFactory.getLogger(getClass());
@@ -32,7 +34,13 @@ public class RegisterController {
 
     @Transactional
     @PostMapping("/registration/form")
-    public String registrationFormData(@ModelAttribute("user")UserDTO userDetails) {
+    public String registrationFormData(@ModelAttribute("user")UserDTO userDetails, Model model) {
+        Optional<User> userOptional = userRepository.findByUsername(userDetails.getUsername());
+        if (userOptional.isPresent()) {
+            model.addAttribute("userExists", true);
+            return "user-registration-form";
+        }
+
         log.info("New user is being created");
         User user = registerService.createNewUser(userDetails);
 
