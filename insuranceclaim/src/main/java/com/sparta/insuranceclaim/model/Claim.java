@@ -38,18 +38,24 @@ public class Claim {
 
     @Size(max = 50)
     @Column(name = "phone_number", length = 50)
-    @Pattern(regexp = "[0-9]{10}", message = "*Only numbers are allowed, and should have 10 digits")
+    @Pattern(regexp = "^$|([0-9]{10,12})", message = "*Only numbers are allowed, and should have 10-12 digits")
     private String phoneNumber;
 
     @Size(max = 50)
     @NotNull
     @Column(name = "car_registration", nullable = false, length = 50)
+    @Pattern(regexp = "^$|(^[A-Z]{2}[0-9]{2}\\s?[A-Z]{3}$)|(^[A-Z][0-9]{1,3}[A-Z]{3}$)|(^[A-Z]{3}[0-9]{1,3}[A-Z]$)|(^[0-9]{1,4}[A-Z]{1,2}$)|(^[0-9]{1,3}[A-Z]{1,3}$)|(^[A-Z]{1,2}[0-9]{1,4}$)|(^[A-Z]{1,3}[0-9]{1,3}$)|(^[A-Z]{1,3}[0-9]{1,4}$)|(^[0-9]{3}[DX]{1}[0-9]{3}$)"
+            ,message = "*Invalid Registration number")
+    @NotBlank(message = "*Car registration number cannot be blank")
     private String carRegistration;
 
     @Column(name = "date_of_incident")
+    @PastOrPresent(message = "*Cannot be a future date")
+    @NotNull(message = "*Provide the date of incident")
     private LocalDate dateOfIncident;
 
     @Column(name = "previous_claims")
+    @Min(0)
     private Integer previousClaims;
 
     @Column(name = "injuries")
@@ -73,6 +79,7 @@ public class Claim {
 
     @Size(max = 500)
     @Column(name = "image_link", length = 500)
+    @Pattern(regexp = "^$|([(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))",message = "Enter a valid URL")
     private String imageLink;
 
     @Column(name = "date_of_submission")
@@ -165,16 +172,15 @@ public class Claim {
     public LocalDate getDateOfIncident() {
         return dateOfIncident;
     }
-/*
     public void setDateOfIncident(LocalDate dateOfIncident) {
         this.dateOfIncident = dateOfIncident;
-    }*/
-    public void setDateOfIncident(String dateString)
+    }
+   /* public void setDateOfIncident(String dateString)
     {
         System.out.println("setter detected!");
         this.dateOfIncident = LocalDate.parse(dateString);
 
-    }
+    }*/
 
     public Integer getPreviousClaims() {
         return previousClaims;

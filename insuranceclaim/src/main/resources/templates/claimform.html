@@ -7,6 +7,7 @@
     <link href="/css/claimformstyles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div th:insert="(~{navbar.html})"></div>
 <div class="container">
     <br>
     <div class="row text-center">
@@ -49,14 +50,17 @@
                 <div class="col-sm-12">
                     <label for="carRegistration">Car Registration Number</label>
                     <input type="text" name="carRegistration" id="carRegistration" class="form-control">
+                    <span  th:if="${#fields.hasErrors('carRegistration')}" class="error" th:errors="*{carRegistration}"></span>
                 </div>
                 <div class="col-sm-12">
                     <label for="dateOfIncident">Date and Time of the Accident</label>
                     <input type="date" name="dateOfIncident" id="dateOfIncident" class="form-control">
+                    <span  th:if="${#fields.hasErrors('dateOfIncident')}" class="error" th:errors="*{dateOfIncident}"></span>
                 </div>
                 <div class="col-sm-12">
                     <label for="previousClaims">Number of previous claims made</label>
-                    <input type="text" name="previousClaims" id="previousClaims" class="form-control">
+                    <input type="number" name="previousClaims" id="previousClaims" class="form-control">
+                    <span  th:if="${#fields.hasErrors('previousClaims')}" class="error" th:errors="*{previousClaims}"></span>
                 </div>
                 <div class="col-sm-12">
                     <label for="injuries">Was anyone Injured ?</label>
@@ -69,7 +73,7 @@
                 <div class="col-sm-12">
                     <label for="fault">Whose fault?</label>
                     <select id="fault" name="fault" class="form-control">
-                        <option value="" disabled>Select</option>
+                        <option value="" disabled selected>Select</option>
                         <option value="Driver">Driver</option>
                         <option value="OtherParty">Other Party</option>
                         <option value="Unknown">Unknown</option>
@@ -105,6 +109,7 @@
                 <div class="col-sm-12">
                     <label for="imageLink">Any link to the image</label>
                     <input type="text" name="imageLink" id="imageLink" class="form-control"></input>
+                    <span  th:if="${#fields.hasErrors('imageLink')}" class="error" th:errors="*{imageLink}"></span>
                 </div>
             </div>
             <!--Accident Description Section ends here-->
