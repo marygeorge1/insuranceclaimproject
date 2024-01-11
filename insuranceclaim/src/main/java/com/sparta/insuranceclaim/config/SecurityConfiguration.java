@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebSecurity
@@ -23,15 +25,17 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/register","/registration/form","/login")
+                            .requestMatchers("/register","/registration/form","/login","/static/**")
                             .permitAll();
                     auth
                             .anyRequest()
                             .authenticated();
                 })
                 .formLogin(formLogin -> formLogin
-                        //.loginPage("/login")
-                        .defaultSuccessUrl("/homepage"))
+                        .loginPage("/login")
+                        .loginProcessingUrl("/perform_login")
+//                        .defaultSuccessUrl("/homepage"))
+                        .successHandler(loginSuccessHandler()))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .deleteCookies("JSESSIONID"))
@@ -52,4 +56,11 @@ public class SecurityConfiguration {
 
         return new ProviderManager(provider);
     }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
+
 }
