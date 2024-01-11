@@ -14,7 +14,25 @@
     swal({
         title: "Claim Status Updated!",
         icon: "warning",
-        button: "Dismiss",
+        buttons: {
+            confirm: {
+                value: "DEFAULT_INPUT_TEXT",
+            },
+        },
+    }).then((value) => {
+        // Send an AJAX request to update the database
+        if (value) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/updateNotification', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            var username = '1234@outlook.com';
+            var password = '1234';
+            xhr.setRequestHeader('username', username);
+            xhr.setRequestHeader('password', password);
+            xhr.responseText = "hello";
+            xhr.send();
+            // xhr.send(JSON.stringify({ showNotification: false }));
+        }
     });
 
     // window.onload = function() {

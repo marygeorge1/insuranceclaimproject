@@ -46,7 +46,7 @@ public class LoginController {
             }
         }
         showNotification = true;
-         model.addAttribute("showNotification",showNotification);
+        model.addAttribute("showNotification",showNotification);
         return "homepage";
     }
 
