@@ -11,7 +11,12 @@
 <h1>Welcome, User!</h1>
 
 <script th:if="${showNotification}">
-    swal("Here's the title!", "...and here's the text!");
+    swal({
+        title: "Claim Status Updated!",
+        icon: "warning",
+        button: "Dismiss",
+    });
+
     // window.onload = function() {
     //     setTimeout(function() {
     //         showNotification();
