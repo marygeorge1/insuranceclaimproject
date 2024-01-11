@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User-Claims</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/claimformstyles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:insert="(~{navbar.html})"></div>
+<div class="container">
+    <br><br>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <table class="table table-bordered">
+                <tr>
+                    <td>Reference Id</td>
+                    <td th:text="${claim.referenceId}"></td>
+                </tr>
+                <tr>
+                    <td>Drivers First Name</td>
+                    <td th:text="${claim.firstName}"></td>
+                </tr>
+                <tr>
+                    <td>Drivers Last Name</td>
+                    <td th:text="${claim.lastName}"></td>
+                </tr>
+                <tr>
+                    <td>Drivers Email</td>
+                    <td th:text="${claim.email}"></td>
+                </tr>
+                <tr>
+                    <td>Drivers Phone Number</td>
+                    <td th:text="${claim.phoneNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Car Registration Number</td>
+                    <td th:text="${claim.carRegistration}"></td>
+                </tr>
+                <tr>
+                    <td>Date of Incident</td>
+                    <td th:text="${claim.dateOfIncident}"></td>
+                </tr>
+                <tr>
+                    <td>Number of Previous Claims</td>
+                    <td th:text="${claim.previousClaims}"></td>
+                </tr>
+                <tr>
+                    <td>Was anyone injured</td>
+                    <td th:text="${claim.injuries}"></td>
+                </tr>
+                <tr>
+                    <td>Police Reference</td>
+                    <td th:text="${claim.policeReportReference}"></td>
+                </tr>
+                <tr>
+                    <td>Whose fault?</td>
+                    <td th:text="${claim.fault}"></td>
+                </tr>
+                <tr>
+                    <td>Other party details</td>
+                    <td th:text="${claim.otherPartiesDetails}"></td>
+                </tr>
+                <tr>
+                    <td>Incident Description</td>
+                    <td th:text="${claim.incidentDescription}"></td>
+                </tr>
+                <tr>
+                    <td>Date of Submission</td>
+                    <td th:text="${claim.dateOfSubmission}"></td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td th:text="${claim.claimStatus}"></td>
+                </tr>
+            </table>
+            <a th:href="@{/all-claims}" class="btn btn-primary">Back to all claims</a>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+</div>
+</body>
+</html>

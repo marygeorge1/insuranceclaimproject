@@ -251,4 +251,28 @@ public class Claim {
         this.claimStatus = claimStatus;
     }
 
+    @Override
+    public String toString() {
+        return "Claim{" +
+                "id=" + id +
+                ", referenceId='" + referenceId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", carRegistration='" + carRegistration + '\'' +
+                ", dateOfIncident=" + dateOfIncident +
+                ", previousClaims=" + previousClaims +
+                ", injuries=" + injuries +
+                ", policeReportReference='" + policeReportReference + '\'' +
+                ", fault='" + fault + '\'' +
+                ", otherPartiesDetails='" + otherPartiesDetails + '\'' +
+                ", incidentDescription='" + incidentDescription + '\'' +
+                ", imageLink='" + imageLink + '\'' +
+                ", dateOfSubmission=" + dateOfSubmission +
+                ", claimStatus='" + claimStatus + '\'' +
+                ", assignedAgent=" + assignedAgent +
+                ", user=" + user +
+                '}';
+    }
 }
