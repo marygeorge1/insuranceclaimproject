@@ -16,14 +16,11 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password"/><br/>
             <button type="submit">Login<span><i class="fa-solid fa-right-to-bracket"></i></span></button>
-            
         </form>
 
         <a th:href="@{/register}">Sign Up</a>
         <div th:if="${logoutMessage}">You have been logged out!</div>
         <div th:if="${incorrectDetails}">Login failed, incorrect email and password!</div>
-
-
     </div>
 
 </body>
