@@ -68,7 +68,7 @@ class CarAccidentClaimManager {
         return result;
     }
 
-    // Method to sort claims based on a specific attribute
+
     public void sortClaims(String attribute) {
         switch (attribute.toLowerCase()) {
             case "age":
@@ -86,6 +86,7 @@ class CarAccidentClaimManager {
             default:
                 System.out.println("Invalid attribute");
         }
+        //filter by date
     }
 
     // Method to print all claims
