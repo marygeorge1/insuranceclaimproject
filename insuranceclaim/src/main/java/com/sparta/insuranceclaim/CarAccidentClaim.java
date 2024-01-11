@@ -24,4 +24,5 @@ public class CarAccidentClaim {
 
     public static <U extends Comparable<? super U>, T> U getCarMake(T t) {
     }
+    //comment
 }
