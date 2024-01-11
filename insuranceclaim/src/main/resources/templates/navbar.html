@@ -16,7 +16,7 @@
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link" href="/homepage/admin">Home</a>
                 </div>
-                <div sec:authorize="hasRole('ROLE_AGENT')">
+                <div sec:authorize="hasRole('ROLE_AGENT') and !hasRole('ROLE_ADMIN')">
                     <a class="nav-link" href="/homepage/agent">Home</a>
                 </div>
                 <div sec:authorize="hasRole('ROLE_USER')">
