@@ -26,6 +26,9 @@ public class adminSearchClaims {
     }
         return userClaims;
     }
+
+
+
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
