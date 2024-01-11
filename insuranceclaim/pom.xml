@@ -57,6 +57,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>shoelace-style__shoelace</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
