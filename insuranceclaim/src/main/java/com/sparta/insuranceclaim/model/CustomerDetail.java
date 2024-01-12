@@ -1,5 +1,6 @@
 package com.sparta.insuranceclaim.model;
 
+import com.sparta.insuranceclaim.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -199,7 +200,5 @@ public class CustomerDetail {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-
-
 
 }

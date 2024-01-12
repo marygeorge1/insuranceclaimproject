@@ -10,8 +10,11 @@
 <div th:insert="(~{navbar.html})"></div>
     <h1 class="center">Welcome, Admin!</h1>
     <div class="center">
+        <form th:action="@{/new-claims}" method="get">
+            <input type="submit" class="btn btn-primary" value="New Claims"/>
+        </form>
         <form th:action="@{/homepage/admin}" method="get">
-            <input type="submit" class="btn btn-primary" value="Assign New Claims"/>
+            <input type="submit" class="btn btn-primary" value="View All Claims"/>
         </form>
         <form th:action="@{/viewClaimsData}" method="get">
             <input type="submit" class="btn btn-primary" value="View Claims"/>
