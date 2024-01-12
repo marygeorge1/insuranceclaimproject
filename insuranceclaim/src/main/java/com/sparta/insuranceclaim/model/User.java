@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Table(name = "user")
@@ -33,6 +32,18 @@ public class User implements UserDetails {
     @NotNull
     @Column(name = "role", nullable = false, length = 50)
     private String role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_details_id")
+    private CustomerDetail customerDetails;
+
+    public CustomerDetail getCustomerDetails() {
+        return customerDetails;
+    }
+
+    public void setCustomerDetails(CustomerDetail customerDetails) {
+        this.customerDetails = customerDetails;
+    }
 
     public User() {}
 
