@@ -3,8 +3,15 @@
 }
 
 body {
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(227,54,97,1) 100%);
+    /*sparta colours*/
+    /*background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(227,54,97,1) 100%);*/
+
+    /*Aegon colours*/
+    background: linear-gradient(90deg, #006bd7 1%, #0582ff 98%);
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
    
 }
 
@@ -38,13 +45,38 @@ button {
 }
 
 button span {
-    display: none;
     margin-left: 5px;
     font-size: small;
 }
 
 button:hover  span{
-    display: inline;
+    color: green;
+}
+
+.signup {
+    color: blue;
+    margin: 10px;
+    word-spacing: 1px;
+}
+
+.notifications {
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin-top: 8px;
+    border-radius: 5px;
 
 }
+
+.loginFailed {
+    border: 1px solid #ff6c6c;
+    background-color: #ffc2c2;
+}
+
+.logoutMessage {
+    border: 1px solid #00ff00;
+    background-color: #c7fdc7;
+}
+
+
 
