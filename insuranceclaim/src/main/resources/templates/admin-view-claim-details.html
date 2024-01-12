@@ -35,5 +35,49 @@
     </tr>
     </tbody>
 </table>
+<h2>Customer Details</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Policy ID</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Driving YOE</th>
+        <th>Annual Income</th>
+        <th>Vehicle Ownership</th>
+        <th>Vehicle Year</th>
+        <th>Annual Mileage</th>
+        <th>Speeding Violations</th>
+        <th>DUIs</th>
+        <th>Previous Accidents</th>
+        <th>Previous Insurances</th>
+        <th>Car Value</th>
+        <th>Car Mileage</th>
+        <th>Date Joining</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${customerDetail.id}"></td>
+        <td th:text="${customerDetail.policyId}"></td>
+        <td th:text="${customerDetail.age}"></td>
+        <td th:text="${customerDetail.gender}"></td>
+        <td th:text="${customerDetail.drivingYoe}"></td>
+        <td th:text="${customerDetail.annualIncome}"></td>
+        <td th:text="${customerDetail.vehicleOwnership}"></td>
+        <td th:text="${customerDetail.vehicleYear}"></td>
+        <td th:text="${customerDetail.annualMileage}"></td>
+        <td th:text="${customerDetail.speedingViolations}"></td>
+        <td th:text="${customerDetail.duis}"></td>
+        <td th:text="${customerDetail.previousAccidents}"></td>
+        <td th:text="${customerDetail.previousInsurances}"></td>
+        <td th:text="${customerDetail.carValue}"></td>
+        <td th:text="${customerDetail.carMileage}"></td>
+        <td th:text="${customerDetail.dateJoining}"></td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>

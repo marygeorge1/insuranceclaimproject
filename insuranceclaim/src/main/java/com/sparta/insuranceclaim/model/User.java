@@ -34,6 +34,18 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = 50)
     private String role;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_details_id")
+    private CustomerDetail customerDetails;
+
+    public CustomerDetail getCustomerDetails() {
+        return customerDetails;
+    }
+
+    public void setCustomerDetails(CustomerDetail customerDetails) {
+        this.customerDetails = customerDetails;
+    }
+
     public User() {}
 
     public User(String username, String password, String role) {

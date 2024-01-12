@@ -2,6 +2,8 @@ package com.sparta.insuranceclaim.controller;
 
 
 import com.sparta.insuranceclaim.model.Claim;
+import com.sparta.insuranceclaim.model.CustomerDetail;
+import com.sparta.insuranceclaim.service.AdminDataService;
 import com.sparta.insuranceclaim.service.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,10 +18,11 @@ import java.util.List;
 public class AdminDataVisualizationController {
 
     private final ClaimService claimService;
+    private final AdminDataService adminDataService;
 
-    @Autowired
-    public AdminDataVisualizationController(ClaimService claimService) {
+    public AdminDataVisualizationController(ClaimService claimService, AdminDataService adminDataService) {
         this.claimService = claimService;
+        this.adminDataService = adminDataService;
     }
 
     @GetMapping("/viewClaimsData")
@@ -33,8 +36,10 @@ public class AdminDataVisualizationController {
     @GetMapping("/viewClaimData/{claimId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
+        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
         Claim claim = claimService.findClaimById(claimId).get();
         model.addAttribute("claim", claim);
+        model.addAttribute("customerDetail", customerDetail);
         return "admin-view-claim-details";
     }
 
