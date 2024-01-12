@@ -5,7 +5,6 @@ import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.service.AdminDataService;
 import com.sparta.insuranceclaim.service.ClaimService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,7 @@ public class AdminDataVisualizationController {
         Claim claim = claimService.findClaimById(claimId).get();
         model.addAttribute("claim", claim);
         model.addAttribute("customerDetail", customerDetail);
-        return "admin-view-claim-details";
+        return "admin-view-all-claim-details";
     }
 
 }
