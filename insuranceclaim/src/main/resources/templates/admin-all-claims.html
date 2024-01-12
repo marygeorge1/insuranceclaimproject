@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>All Claims</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/claimformstyles.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div th:insert="(~{navbar.html})"></div>
+    <div class="container">
+      <br><br>
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th scope="col">ReferenceId</th>
+              <th scope="col">Date of Submission</th>
+              <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tr th:each="claim:${newClaims}">
+              <td th:text="${claim.referenceId}"></td>
+              <td th:text="${claim.dateOfSubmission}"></td>
+              <td th:text="${claim.claimStatus}"></td>
+              <td><a th:href="@{'/view/claims/'+${claim.id}}" class="btn btn-primary">See Details</a></td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </body>
+</html>
