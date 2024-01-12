@@ -7,6 +7,9 @@
     <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/AdminDataVisualisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/AdminDataVisualisation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/CarAccidentClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/CarAccidentClaim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/adminSearchClaims.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/adminSearchClaims.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/model/CustomerDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/model/CustomerDetail.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +46,11 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_directory_selection": "C:/Users/Will/IdeaProjects/insuranceclaimproject/insuranceclaim/src/main/java/com/sparta/insuranceclaim"
+    "last_directory_selection": "C:/Users/Will/IdeaProjects/insuranceclaimproject/insuranceclaim/src/main/java/com/sparta/insuranceclaim",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">

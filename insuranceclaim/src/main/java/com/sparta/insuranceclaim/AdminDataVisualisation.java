@@ -13,9 +13,6 @@ import java.util.List;
     private String carMake;
     private String carModel;
 
-    // Constructor, getters, and setters omitted for brevity
-
-    // toString method for easy printing
     @Override
     public String toString() {
         return "CarAccidentClaim{" +
@@ -41,7 +38,7 @@ class CarAccidentClaimManager {
         claims.add(claim);
     }
 
-    // Method to search for claims based on a specific attribute
+
     public List<CarAccidentClaim> searchClaims(String attribute, String value) {
         List<CarAccidentClaim> result = new ArrayList<>();
 
@@ -57,8 +54,18 @@ class CarAccidentClaimManager {
                         result.add(claim);
                     }
                     break;
-                // Add cases for other attributes (numberOfClaims, gender, carMake, carModel) as needed
-                // ...
+
+                case "gender":
+                    if (claim.getGender().equalsIgnoreCase(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "carvalue":
+                    if (Integer.toString(claim.getCarValue()).equals(value)) {
+                        result.add(claim);
+
+                    }
+                    break;
 
                 default:
                     System.out.println("Invalid attribute");
@@ -74,22 +81,25 @@ class CarAccidentClaimManager {
             case "age":
                 Collections.sort(claims, Comparator.comparingInt(CarAccidentClaim::getAge));
                 break;
-            case "numberofclaims":
-                Collections.sort(claims, Comparator.comparingInt(CarAccidentClaim::getNumberOfClaims));
-                break;
             case "gender":
                 Collections.sort(claims, Comparator.comparing(CarAccidentClaim::getGender));
                 break;
-            case "carmake":
-                Collections.sort(claims, Comparator.comparing(CarAccidentClaim::getCarMake));
+            case "carvalue":
+                Collections.sort(claims, Comparator.comparingInt(CarAccidentClaim::getCarValue));
                 break;
-            default:
+            case "datejoined":
+                Collections.sort(claims, Comparator.comparing(CarAccidentClaim::getDateJoined));
+                break;
+            case "name":
+                Collections.sort(claims, Comparator.comparing(CarAccidentClaim:: getName));
+                break;
+                default:
                 System.out.println("Invalid attribute");
         }
-        //filter by date
+
     }
 
-    // Method to print all claims
+
     public void printAllClaims() {
         for (CarAccidentClaim claim : claims) {
             System.out.println(claim);

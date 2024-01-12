@@ -15,7 +15,7 @@ public class InsuranceclaimApplication {
 		SpringApplication.run(InsuranceclaimApplication.class, args);
 	}
 
-	// Code to create test accounts. RUN ONCE ONLY!
+	 // Code to create test accounts. RUN ONCE ONLY!
 //	@Bean
 //	CommandLineRunner runner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 //		return args -> {

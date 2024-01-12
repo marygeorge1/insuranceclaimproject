@@ -1,28 +1,31 @@
 package com.sparta.insuranceclaim;
 
+import com.sparta.insuranceclaim.model.CustomerDetail;
+import com.sparta.insuranceclaim.model.Claim;
+
+import java.time.LocalDate;
+
 public class CarAccidentClaim {
     public String getName() {
-        return name;
-    }
-    public void setName(){
-        this.name = name;
+        return new Claim().getFirstName();
     }
 
     public int getAge() {
-        return age;
+       return new CustomerDetail().getAge();
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public int getCarValue() {
+        return new CustomerDetail().getCarValue();
     }
 
-    public static <T> int getNumberOfClaims(T t) {
+    public String getGender(){
+        return new CustomerDetail().getGender();
+    }
+    public LocalDate getDateJoined(){
+    return new CustomerDetail().getDateJoining();
     }
 
-    public static <U extends Comparable<? super U>, T> U getGender(T t) {
-    }
 
-    public static <U extends Comparable<? super U>, T> U getCarMake(T t) {
-    }
-    //comment
+
+
 }
