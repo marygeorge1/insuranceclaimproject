@@ -37,7 +37,7 @@ private final ClaimService claimService;
             return "claimform";
         }
         User loggedInUser=(User)authentication.getPrincipal();
-        claimService.addClaim(claim,loggedInUser);
+        claim = claimService.addClaim(claim,loggedInUser);
         claimService.detectFraud(claim);
         return "claimform";
     }

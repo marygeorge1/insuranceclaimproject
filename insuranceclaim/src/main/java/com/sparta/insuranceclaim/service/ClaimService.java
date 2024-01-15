@@ -4,10 +4,12 @@ import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +36,15 @@ public class ClaimService {
 
        return refferenceNo;
     }
-    public void addClaim (Claim claim, User loggedInUser) {
+    public Claim addClaim (Claim claim, User loggedInUser) {
         claim.setDateOfSubmission(LocalDate.now());
         claim.setReferenceId(generateRefferenceNumber(claim));
         claim.setClaimStatus("submitted");
         claim.setUser(loggedInUser);
+        claim.setFraudFlag(false);
+        claim.setFraudFlagInformation("");
         claimRepository.save(claim);
+        return claim;
     }
 
     public List<Claim> findAllClaims() {
@@ -54,23 +59,41 @@ public class ClaimService {
 
        User user = claim.getUser();
        CustomerDetail userDetails = user.getCustomerDetails();
-       int numberOfClaimsFromUser = claimRepository.findByUser(user).size();
+       List<Claim> previousClaims = claimRepository.findByUser(user);
+       List<Claim> claimsWithinAYear = new ArrayList<>();
+       for (Claim previousClaim : previousClaims) {
+           if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {
+               claimsWithinAYear.add(previousClaim);
+           }
+       }
+       int numberOfClaimsFromUserWithin1Year = claimsWithinAYear.size();
        String flagInformation = claim.getFraudFlagInformation();
 
-       // Suspicious if number of claims > 3
-       if(numberOfClaimsFromUser > 3) {
+       // Suspicious if number of claims > 3 within 1 year
+       if(numberOfClaimsFromUserWithin1Year > 3) {
            claim.setFraudFlag(true);
-           claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Number of previous claims exceeds 3"));
+           flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3");
+           claim.setFraudFlagInformation(flagInformation);
            claimRepository.save(claim);
+
+           for (Claim claimWithinAYear : claimsWithinAYear) {
+               claimWithinAYear.setFraudFlag(true);
+               String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
+               if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3")) {
+                   claimWithinAYear.setFraudFlagInformation(appendToFlagInformation(previousClaimFlagInformation, "Number of claims within 1 year exceeds 3"));
+               }
+               claimRepository.save(claimWithinAYear);
+           }
        }
 
        // Suspicious if previously submitted claim was found suspicious
-        List<Claim> previousClaims = claimRepository.findByUser(user);
         for(Claim previousClaim : previousClaims) {
             if(previousClaim.getFraudFlag()) {
                 claim.setFraudFlag(true);
-                claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Claimant has a previously submitted claim that was found to be suspicious"));
+                flagInformation = appendToFlagInformation(flagInformation, "Claimant has a previously submitted claim that was found to be suspicious");
+                claim.setFraudFlagInformation(flagInformation);
                 claimRepository.save(claim);
+                break;
             }
         }
 
@@ -79,7 +102,8 @@ public class ClaimService {
         LocalDate dateOfJoining = userDetails.getDateJoining();
         if (dateOfJoining.isAfter(dateOfClaimSubmission.minusDays(2))) {
             claim.setFraudFlag(true);
-            claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Claim was made within 2 days of joining insurance plan"));
+            flagInformation = appendToFlagInformation(flagInformation, "Claim was made within 2 days of joining insurance plan");
+            claim.setFraudFlagInformation(flagInformation);
             claimRepository.save(claim);
         }
     }
