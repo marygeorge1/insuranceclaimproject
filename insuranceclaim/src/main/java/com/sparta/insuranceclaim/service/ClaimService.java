@@ -89,7 +89,7 @@ public class ClaimService {
 
     private void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
         claim.setFraudFlag(true);
-        flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3");
+        flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3.");
         claim.setFraudFlagInformation(flagInformation);
         claimRepository.save(claim);
 
@@ -101,9 +101,9 @@ public class ClaimService {
     private void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
         claimWithinAYear.setFraudFlag(true);
         String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
-        if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3")) {
+        if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3.")) {
             claimWithinAYear.setFraudFlagInformation(
-                    appendToFlagInformation(previousClaimFlagInformation, "Number of claims within 1 year exceeds 3"));
+                    appendToFlagInformation(previousClaimFlagInformation, "Number of claims within 1 year exceeds 3."));
         }
         claimRepository.save(claimWithinAYear);
     }
@@ -112,7 +112,7 @@ public class ClaimService {
         if (hasPreviousSuspiciousClaim(previousClaims)) {
             claim.setFraudFlag(true);
             flagInformation = appendToFlagInformation(flagInformation,
-                    "Claimant has a previously submitted claim that was found to be suspicious");
+                    "Claimant has a previously submitted claim that was found to be suspicious.");
             claim.setFraudFlagInformation(flagInformation);
             claimRepository.save(claim);
         }
@@ -134,7 +134,7 @@ public class ClaimService {
     private void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation,
-                "Claim was made within 2 days of joining insurance plan");
+                "Claim was made within 2 days of joining insurance plan.");
         claim.setFraudFlagInformation(flagInformation);
         claimRepository.save(claim);
     }
