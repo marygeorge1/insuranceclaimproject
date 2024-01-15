@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -146,4 +147,49 @@ public class ClaimService {
         return flagInformation += message;
     }
 
+    public List<Claim> findAllClaimsSorted(String sortField, String sortOrder) {
+        List<Claim> claims = claimRepository.findAll(); // Assuming you have a claimRepository
+
+        Comparator<Claim> comparator;
+
+        switch (sortField.toLowerCase()) {
+            case "id":
+                comparator = Comparator.comparing(Claim::getId);
+                break;
+            case "referenceid":
+                comparator = Comparator.comparing(Claim::getReferenceId);
+                break;
+            case "firstname":
+                comparator = Comparator.comparing(Claim::getFirstName);
+                break;
+            case "lastname":
+                comparator = Comparator.comparing(Claim::getLastName);
+                break;
+            case "email":
+                comparator = Comparator.comparing(Claim::getEmail);
+                break;
+            case "carregistration":
+                comparator = Comparator.comparing(Claim::getCarRegistration);
+                break;
+            case "dateofincident":
+                comparator = Comparator.comparing(Claim::getDateOfIncident);
+                break;
+            case "claimstatus":
+                comparator = Comparator.comparing(Claim::getClaimStatus);
+                break;
+            case "fraudflag":
+                comparator = Comparator.comparing(Claim::getFraudFlag);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid sort field: " + sortField);
+        }
+
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            claims.sort(comparator.reversed());
+        } else {
+            claims.sort(comparator);
+        }
+
+        return claims;
+    }
 }
