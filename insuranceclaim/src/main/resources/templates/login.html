@@ -18,10 +18,7 @@
             <button type="submit">Login<span><i class="fa-solid fa-right-to-bracket"></i></span></button>
         </form>
 
-        <p class="signup-msg">
-            Don't have an account? 
-            <a class="signup" th:href="@{/register}">Sign Up</a>
-        </p>
+        <a class="signup" th:href="@{/register}">Sign Up</a>
         <div class="logoutMessage notifications" th:if="${logoutMessage}">You have been logged out!</div>
         <div class="loginFailed notifications" th:if="${incorrectDetails}">Login failed, incorrect email and password!</div>
     </div>

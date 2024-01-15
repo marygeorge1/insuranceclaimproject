@@ -10,15 +10,15 @@
 <body>
 
     <div class="container">
-        <h1>Register</h1>
+        <h1>Create New User</h1>
         <form th:action="@{/registration/form}" th:object="${user}" method="post">
             <label for="username">Email</label>
             <input type="email" id="username" name="username" th:field="*{username}" required /><br/>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" th:field="*{password}" required /><br/>
-            <input type="submit" value="Sign Up"/>
+            <input type="submit" value="Register"/>
         </form>
-        <div class="notifications errorMsg" th:if="${userExists}">Email already registered!</div>
+        <div th:if="${userExists}">Email already registered!</div>
     </div>
 </body>
 </html>
