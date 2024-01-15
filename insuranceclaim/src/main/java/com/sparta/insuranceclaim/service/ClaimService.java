@@ -45,7 +45,7 @@ public class ClaimService {
        return claimRepository.findAll();
     }
 
-    public Optional<Claim> findClaimById(int id) {
+    public Optional<Claim> findClaimById(Integer id) {
        return claimRepository.findById(id);
     }
 

@@ -91,9 +91,16 @@ public class InsuranceApplicationMVCTests {
     }
 
     @Test
-    @DisplayName("Test that status code is 200")
-    void testThatStatusCodeIs200() throws Exception {
+    @DisplayName("Test that login status code is 200")
+    void testThatLoginStatusCodeIs200() throws Exception {
         this.mockMvc.perform(get("/login")).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test that register status code is 200")
+    void testThatRegisterStatusCodeIs200() throws Exception {
+        this.mockMvc.perform(get("/register")).andDo(print())
                 .andExpect(status().isOk());
     }
 }

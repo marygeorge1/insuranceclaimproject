@@ -49,10 +49,10 @@ public class AdminDataVisualizationController {
     @GetMapping("/viewClaimData/{claimId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
-        //CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
+        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
         Claim claim = claimRepository.findById(claimId).get();
         model.addAttribute("claim", claim);
-        //model.addAttribute("customerDetail", customerDetail);
+        model.addAttribute("customerDetail", customerDetail);
         return "admin-view-all-claim-details";
     }
 
