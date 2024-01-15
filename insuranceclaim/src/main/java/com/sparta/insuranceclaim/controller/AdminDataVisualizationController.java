@@ -6,6 +6,8 @@ import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.service.AdminDataService;
 import com.sparta.insuranceclaim.service.ClaimService;
+import com.sparta.insuranceclaim.service.InsurancePremiumService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,10 @@ public class AdminDataVisualizationController {
     private final ClaimService claimService;
     private final AdminDataService adminDataService;
     private final ClaimRepository claimRepository;
+
+    @Autowired
+    private InsurancePremiumService insurancePremiumService;
+
 
     public AdminDataVisualizationController(ClaimService claimService, AdminDataService adminDataService,
                                             ClaimRepository claimRepository) {
@@ -47,6 +53,10 @@ public class AdminDataVisualizationController {
         Claim claim = claimRepository.findById(claimId).get();
         model.addAttribute("claim", claim);
         model.addAttribute("customerDetail", customerDetail);
+
+        // generating insurance premium data
+        String premiumAmountForTheUser=insurancePremiumService.getInsurancePremiumAmount(customerDetail.getId());
+        model.addAttribute("premium", premiumAmountForTheUser);
         return "admin-view-all-claim-details";
     }
 
