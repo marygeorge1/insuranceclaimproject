@@ -15,16 +15,6 @@ body {
    
 }
 
-.container {
-    width: 500px;
-    height: 450px;
-    padding: 30px;
-    background-color: #f2f2f2;
-    margin: 0 auto;
-    border-radius: 5px;
-    box-shadow: 4px 4px 20px 2px #0f0f0f;
-}
-
 input {
     width: 100%;
     padding: 8px 10px;
@@ -52,6 +42,17 @@ button span {
 button:hover  span{
     color: green;
 }
+
+.container {
+    width: 500px;
+    height: 450px;
+    padding: 30px;
+    background-color: #f2f2f2;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 4px 4px 20px 2px #0f0f0f;
+}
+
 
 .signup {
     color: blue;

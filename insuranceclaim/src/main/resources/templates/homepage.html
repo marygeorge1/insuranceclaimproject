@@ -8,14 +8,26 @@
 </head>
 <body>
 <div th:insert="(~{navbar.html})"></div>
-    <h1 class="center">Welcome, User!</h1>
-    <div class="center">
-        <form th:action="@{/claim/create}" method="get">
-            <input type="submit" class="btn btn-primary" value="Create New Claim"/>
-        </form>
-        <form th:action="@{/all-claims}" method="get">
-            <input type="submit" class="btn btn-primary" value="View Previous Claims"/>
-        </form>
+    <h1 class="title">Welcome, User!</h1>
+    <div class="container">
+        <article class="cta">
+            <div class="cta__text-column">
+                <h2>CREATE NEW CLAIM</h2>
+                <p>This is where you can create a new claim</p>
+                <form th:action="@{/claim/create}" method="get">
+                    <input type="submit" class="btn btn-primary" value="Create New Claim"/>
+                </form>
+            </div>
+        </article>
+        <article class="cta">
+            <div class="cta__text-column">
+                <h2>VIEW PREVIOUS CLAIMS</h2>
+                <p>This is where you can view all the claims you have made previously</p>
+                <form th:action="@{/all-claims}" method="get">
+                    <input type="submit" class="btn btn-primary" value="View Previous Claims"/>
+                </form>
+            </div>
+        </article>
     </div>
 </body>
 </html>

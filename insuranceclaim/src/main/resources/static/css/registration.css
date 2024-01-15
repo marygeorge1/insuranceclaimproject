@@ -1,23 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+
 }
 
 body {
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(227,54,97,1) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+
+    /*Aegon colours*/
+    /* background: linear-gradient(90deg, #006bd7 1%, #0582ff 98%); */
+    background:url('https://images.unsplash.com/photo-1637763723578-79a4ca9225f7?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-size: cover;
+    overflow: hidden;
 }
 
 .container {
     width: 500px;
     height: 450px;
     padding: 30px;
-    background-color: #f2f2f2;
     margin: 0 auto;
-    border-radius: 5px;
+
+    /* Glassmorphism */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
     box-shadow: 4px 4px 20px 2px #0f0f0f;
+    backdrop-filter: blur(8.9px);
+    -webkit-backdrop-filter: blur(5.9px);
+    border: 1px solid rgba(255, 255, 255, 0.29);
+
 }
 
 input {
@@ -35,7 +53,7 @@ form label {
 input[type=submit] {
     cursor: pointer;
     padding: 5px 10px;
-    margin-top: 5px;
+    margin-top: 15px;
     font-size: 15px;
 }
 
@@ -44,6 +62,23 @@ input[type=submit]:hover {
     background-color: black;
     color: white;
 }
+
+.notifications {
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin-top: 8px;
+    border-radius: 5px;
+
+}
+
+.errorMsg {
+    border: 1px solid #ff6c6c;
+    background-color: #ffc2c2;
+}
+
+
+
 
 
 

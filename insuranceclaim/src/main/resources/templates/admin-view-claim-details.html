@@ -75,7 +75,7 @@
                             <td th:text="${claim.claimStatus}"></td>
                         </tr>
                     </table>
-                    <a th:href="@{/#}" class="btn btn-primary">Back to all claims</a>
+                    <a href="/new-claims" class="btn btn-primary">Back to all claims</a>
                     <a th:href="@{'/approve/'+ ${claim.id}}" class="btn btn-primary">Approve</a>
                     <a th:href="@{'/deny/'+ ${claim.id}}" class="btn btn-primary">Deny</a>
                     <a th:href="@{'/flag/'+ ${claim.id}}" class="btn btn-primary">Flag</a>

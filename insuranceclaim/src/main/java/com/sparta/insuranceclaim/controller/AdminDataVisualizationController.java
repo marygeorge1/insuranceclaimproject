@@ -3,6 +3,7 @@ package com.sparta.insuranceclaim.controller;
 
 import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.model.CustomerDetail;
+import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.service.AdminDataService;
 import com.sparta.insuranceclaim.service.ClaimService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +19,13 @@ public class AdminDataVisualizationController {
 
     private final ClaimService claimService;
     private final AdminDataService adminDataService;
+    private final ClaimRepository claimRepository;
 
-    public AdminDataVisualizationController(ClaimService claimService, AdminDataService adminDataService) {
+    public AdminDataVisualizationController(ClaimService claimService, AdminDataService adminDataService,
+                                            ClaimRepository claimRepository) {
         this.claimService = claimService;
         this.adminDataService = adminDataService;
+        this.claimRepository = claimRepository;
     }
 
     @GetMapping("/viewClaimsData")
@@ -32,13 +36,23 @@ public class AdminDataVisualizationController {
         return "admin-view-claims-data";
     }
 
+    //@GetMapping("/viewClaimData/{claimId}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
+    //    CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
+    //    Claim claim = claimService.findClaimById(claimId).get();
+    //    model.addAttribute("claim", claim);
+    //    model.addAttribute("customerDetail", customerDetail);
+    //    return "admin-view-all-claim-details";
+    //}
+
     @GetMapping("/viewClaimData/{claimId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
-        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
-        Claim claim = claimService.findClaimById(claimId).get();
+        //CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
+        Claim claim = claimRepository.findById(claimId).get();
         model.addAttribute("claim", claim);
-        model.addAttribute("customerDetail", customerDetail);
+        //model.addAttribute("customerDetail", customerDetail);
         return "admin-view-all-claim-details";
     }
 
