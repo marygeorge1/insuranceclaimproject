@@ -5,6 +5,7 @@ import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.repository.CustomerDetailRepository;
 import com.sparta.insuranceclaim.repository.UserRepository;
 import com.sparta.insuranceclaim.service.*;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class InsuranceApplicationMVCTests {
     @Autowired
     MockMvc mockMvc;
+
+    //@Autowired
+    //private PasswordEncoder passwordEncoder;
 
     @MockBean
     private ClaimRepository claimRepository;
@@ -81,9 +88,21 @@ public class InsuranceApplicationMVCTests {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Test view claims page gets 200")
     void testViewClaimsPage200() throws Exception {
         int status = mockMvc.perform(MockMvcRequestBuilders.get("/viewClaimsData?"))
+                .andReturn()
+                .getResponse()
+                .getStatus();
+        Assertions.assertEquals(200,status);
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("Test create claims page gets 200")
+    void testCreateClaimsPage200() throws Exception {
+        int status = mockMvc.perform(MockMvcRequestBuilders.get("/claim/create"))
                 .andReturn()
                 .getResponse()
                 .getStatus();
@@ -98,9 +117,78 @@ public class InsuranceApplicationMVCTests {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Test that register status code is 200")
     void testThatRegisterStatusCodeIs200() throws Exception {
         this.mockMvc.perform(get("/register")).andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @WithMockUser
+    @DisplayName("test that new claim form created code 201")
+    void testNewClaimFormCreated201() throws Exception {
+        this.mockMvc.perform(get("/claim/create")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser // Use a mock user for an authenticated user
+    public void testAuthenticatedUserAccess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/homepage/admin"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    //@Test
+    //@DisplayName("test succesful login user")
+    //public void testSuccessfulLogin() throws Exception {
+    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
+    //                    .param("username","user")
+    //                    .param("password","password"))
+    //            .andExpect(MockMvcResultMatchers.status().isOk());
+    //}
+//
+    //@Test
+    //public void testFailedLogin() throws Exception {
+    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
+    //                    .param("user", "invalidUsername")
+    //                    .param("password", "invalidPassword"))
+    //            .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    //}
+
+    //@Test
+    //@Transactional
+    //public void testSuccessfulLogin() throws Exception {
+    //    // Arrange
+    //    String username = "user";
+    //    String password = "password";
+//
+    //    // Assuming you have a user registered with these credentials in your application
+    //    String encodedPassword = passwordEncoder.encode(password);
+//
+    //    // Act and Assert
+    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
+    //                    .param("username", username)
+    //                    .param("password", password))
+    //            .andExpect(MockMvcResultMatchers.status().isOk());
+    //}
+//
+    //@Test
+    //public void testFailedLogin() throws Exception {
+    //    // Arrange
+    //    String username = "invalidUser";
+    //    String password = "invalidPassword";
+//
+    //    // Act and Assert
+    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
+    //                    .param("username", username)
+    //                    .param("password", password))
+    //            .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    //}
+//
+    //@Test
+    //public void testLogout() throws Exception {
+    //    // Act and Assert
+    //    mockMvc.perform(MockMvcRequestBuilders.post("/logout"))
+    //            .andExpect(MockMvcResultMatchers.status().isOk());
+    //}
 }

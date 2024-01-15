@@ -36,16 +36,6 @@ public class AdminDataVisualizationController {
         return "admin-view-claims-data";
     }
 
-    //@GetMapping("/viewClaimData/{claimId}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    //public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
-    //    CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
-    //    Claim claim = claimService.findClaimById(claimId).get();
-    //    model.addAttribute("claim", claim);
-    //    model.addAttribute("customerDetail", customerDetail);
-    //    return "admin-view-all-claim-details";
-    //}
-
     @GetMapping("/viewClaimData/{claimId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
