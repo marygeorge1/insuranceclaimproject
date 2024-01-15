@@ -14,6 +14,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -138,22 +141,22 @@ public class InsuranceApplicationMVCTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    //@Test
-    //@DisplayName("test succesful login user")
-    //public void testSuccessfulLogin() throws Exception {
-    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
-    //                    .param("username","user")
-    //                    .param("password","password"))
-    //            .andExpect(MockMvcResultMatchers.status().isOk());
-    //}
-//
-    //@Test
-    //public void testFailedLogin() throws Exception {
-    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
-    //                    .param("user", "invalidUsername")
-    //                    .param("password", "invalidPassword"))
-    //            .andExpect(MockMvcResultMatchers.status().isUnauthorized());
-    //}
+    @Test
+    @DisplayName("test succesful login user")
+    public void testSuccessfulLogin() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/perform_login")
+                        .param("username","user")
+                        .param("password","password"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testFailedLogin() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/perform_login")
+                        .param("user", "invalidUsername")
+                        .param("password", "invalidPassword"))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
 
     //@Test
     //@Transactional
