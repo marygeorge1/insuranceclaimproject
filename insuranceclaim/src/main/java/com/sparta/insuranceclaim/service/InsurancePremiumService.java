@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class InsurancePremiumService {
 
-    private double baseAmount=500;
-
-
 
     @Autowired
     private CustomerDetailRepository customerDetailRepository;
@@ -21,10 +18,11 @@ public class InsurancePremiumService {
     private UserRepository userRepository;
 
     public double getInsurancePremiumAmount(Integer userId){
+         double baseAmount=500;
         //getting the customer details
         CustomerDetail customerDetail=getCustomerDetails(userId);
         // for age
-        ageFactor(customerDetail.getAge());
+        double ageFactorAmount=ageFactor(baseAmount,customerDetail.getAge());
         //
 
 
@@ -36,30 +34,34 @@ public class InsurancePremiumService {
         return userRepository.findById(userId).get().getCustomerDetails();
     }
 
-    public void ageFactor(int age){
+    public double ageFactor(double baseAmount,int age){
+        double ageFactor=0.0;
         if(age<25 || age>50){
-            baseAmount=baseAmount+(baseAmount*0.15);
+            ageFactor=baseAmount*0.15;
         }
+        return ageFactor;
     }
 
-    public void drivingYearsOfExperienceFactor(int drivingYearsOfExperience){
+    public double drivingYearsOfExperienceFactor(double baseAmount,int drivingYearsOfExperience){
 
+        double drivingYearsOfExperienceFactor=0.0;
        if(drivingYearsOfExperience<=10){
            //System.out.println(baseAmount+baseAmount*((10-drivingYearsOfExperience)/100));
-           baseAmount=baseAmount+baseAmount*((10.0-drivingYearsOfExperience)/100);
-           //return;
+           //baseAmount=baseAmount+baseAmount*((10.0-drivingYearsOfExperience)/100);
+           drivingYearsOfExperienceFactor=baseAmount*((10.0-drivingYearsOfExperience)/100);
+
        }
        else if(drivingYearsOfExperience>10 && drivingYearsOfExperience<20){
 
-            baseAmount=baseAmount-baseAmount*((drivingYearsOfExperience%10)*0.5/100);
+            //baseAmount=baseAmount-baseAmount*((drivingYearsOfExperience%10)*0.5/100);
+           drivingYearsOfExperienceFactor=baseAmount*((drivingYearsOfExperience%10)*0.5/100);
        }
        else if(drivingYearsOfExperience>=20){
-           baseAmount=baseAmount-(baseAmount*0.05);
+           //baseAmount=baseAmount-(baseAmount*0.05);
+           drivingYearsOfExperienceFactor=(baseAmount*0.05);
        }
-
+        return drivingYearsOfExperienceFactor;
     }
 
-    public double getBaseAmount() {
-        return baseAmount;
-    }
+
 }

@@ -16,14 +16,14 @@ public class InsurancePremiumServiceTests {
 
     @Test
     public void ageFactorTest(){
-        insurancePremiumService.ageFactor(20);
-        Assertions.assertEquals(575,insurancePremiumService.getBaseAmount());
+        ;
+        Assertions.assertEquals(75,insurancePremiumService.ageFactor(500,20));
     }
 
     @ParameterizedTest
-    @CsvSource({"5,525","15,487.5"})
+    @CsvSource({"5,25","15,12.5"})
     public void drivingYearsOfExperienceFactorTest(int yearsOExperience,double expectedValue){
-        insurancePremiumService.drivingYearsOfExperienceFactor(yearsOExperience);
-        Assertions.assertEquals(expectedValue,insurancePremiumService.getBaseAmount());
+        ;
+        Assertions.assertEquals(expectedValue,insurancePremiumService.drivingYearsOfExperienceFactor(500,yearsOExperience));
     }
 }
