@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
- public class AdminDataVisualisation {
+public class AdminDataVisualisation {
     private String name;
     private int age;
     private int numberOfClaims;
@@ -93,7 +93,7 @@ class CarAccidentClaimManager {
             case "name":
                 Collections.sort(claims, Comparator.comparing(CarAccidentClaim:: getName));
                 break;
-                default:
+            default:
                 System.out.println("Invalid attribute");
         }
 
@@ -124,3 +124,5 @@ class CarAccidentClaimManager {
 
     }
 }
+
+

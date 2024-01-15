@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class AdminDataVisualizationController {
         this.adminDataService = adminDataService;
     }
 
-    @GetMapping("/viewClaimsData")
+    /*@GetMapping("/viewClaimsData")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminViewClaimsData(Model model) {
         List<Claim> submittedClaims = claimService.findAllClaims();
         model.addAttribute("claims", submittedClaims);
         return "admin-view-claims-data";
-    }
+    }*/
 
     @GetMapping("/viewClaimData/{claimId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -40,6 +41,17 @@ public class AdminDataVisualizationController {
         model.addAttribute("claim", claim);
         model.addAttribute("customerDetail", customerDetail);
         return "admin-view-all-claim-details";
+    }
+
+    @GetMapping("/viewClaimsData")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String adminViewClaimsData(Model model,
+                                      @RequestParam(defaultValue = "id") String sortField,
+                                      @RequestParam(defaultValue = "asc") String sortOrder) {
+        List<Claim> submittedClaims = claimService.findAllClaimsSorted(sortField, sortOrder);
+        model.addAttribute("claims", submittedClaims);
+        model.addAttribute("sortOrder", sortOrder.equals("asc") ? "desc" : "asc"); // toggle sorting order for next click
+        return "admin-view-claims-data";
     }
 
 }
