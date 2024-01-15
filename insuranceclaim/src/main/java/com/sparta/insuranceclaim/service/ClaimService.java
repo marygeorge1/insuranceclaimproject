@@ -56,56 +56,87 @@ public class ClaimService {
     }
 
     public void detectFraud(Claim claim) {
+        User user = claim.getUser();
+        CustomerDetail userDetails = user.getCustomerDetails();
+        List<Claim> previousClaims = claimRepository.findByUser(user);
+        String flagInformation = claim.getFraudFlagInformation();
 
-       User user = claim.getUser();
-       CustomerDetail userDetails = user.getCustomerDetails();
-       List<Claim> previousClaims = claimRepository.findByUser(user);
-       List<Claim> claimsWithinAYear = new ArrayList<>();
-       for (Claim previousClaim : previousClaims) {
-           if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {
-               claimsWithinAYear.add(previousClaim);
-           }
-       }
-       int numberOfClaimsFromUserWithin1Year = claimsWithinAYear.size();
-       String flagInformation = claim.getFraudFlagInformation();
+        detectFraudBasedOnPreviousSuspiciousClaim(claim, previousClaims, flagInformation);
+        flagInformation = claim.getFraudFlagInformation();
+        detectFraudBasedOnNumberOfClaims(claim, previousClaims, flagInformation);
+        flagInformation = claim.getFraudFlagInformation();
+        detectFraudBasedOnClaimSubmissionDate(claim, userDetails, flagInformation);
+    }
 
-       // Suspicious if number of claims > 3 within 1 year
-       if(numberOfClaimsFromUserWithin1Year > 3) {
-           claim.setFraudFlag(true);
-           flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3");
-           claim.setFraudFlagInformation(flagInformation);
-           claimRepository.save(claim);
+    private void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
+        List<Claim> claimsWithinAYear = getClaimsWithinAYear(claim, previousClaims);
+        int numberOfClaimsWithin1Year = claimsWithinAYear.size();
 
-           for (Claim claimWithinAYear : claimsWithinAYear) {
-               claimWithinAYear.setFraudFlag(true);
-               String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
-               if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3")) {
-                   claimWithinAYear.setFraudFlagInformation(appendToFlagInformation(previousClaimFlagInformation, "Number of claims within 1 year exceeds 3"));
-               }
-               claimRepository.save(claimWithinAYear);
-           }
-       }
+        if (numberOfClaimsWithin1Year > 3) {
+            processFraudBasedOnNumberOfClaims(claim, claimsWithinAYear, flagInformation);
+        }
+    }
 
-       // Suspicious if previously submitted claim was found suspicious
-        for(Claim previousClaim : previousClaims) {
-            if(previousClaim.getFraudFlag()) {
-                claim.setFraudFlag(true);
-                flagInformation = appendToFlagInformation(flagInformation, "Claimant has a previously submitted claim that was found to be suspicious");
-                claim.setFraudFlagInformation(flagInformation);
-                claimRepository.save(claim);
-                break;
+    private List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
+        List<Claim> claimsWithinAYear = new ArrayList<>();
+        for (Claim previousClaim : previousClaims) {
+            if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {
+                claimsWithinAYear.add(previousClaim);
             }
         }
+        return claimsWithinAYear;
+    }
 
-        // Suspicious if claim submitted within few days of joining insurance
-        LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
-        LocalDate dateOfJoining = userDetails.getDateJoining();
-        if (dateOfJoining.isAfter(dateOfClaimSubmission.minusDays(2))) {
+    private void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
+        claim.setFraudFlag(true);
+        flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3");
+        claim.setFraudFlagInformation(flagInformation);
+        claimRepository.save(claim);
+
+        for (Claim claimWithinAYear : claimsWithinAYear) {
+            processFraudForClaimWithinAYear(claimWithinAYear, flagInformation);
+        }
+    }
+
+    private void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
+        claimWithinAYear.setFraudFlag(true);
+        String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
+        if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3")) {
+            claimWithinAYear.setFraudFlagInformation(
+                    appendToFlagInformation(previousClaimFlagInformation, "Number of claims within 1 year exceeds 3"));
+        }
+        claimRepository.save(claimWithinAYear);
+    }
+
+    private void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
+        if (hasPreviousSuspiciousClaim(previousClaims)) {
             claim.setFraudFlag(true);
-            flagInformation = appendToFlagInformation(flagInformation, "Claim was made within 2 days of joining insurance plan");
+            flagInformation = appendToFlagInformation(flagInformation,
+                    "Claimant has a previously submitted claim that was found to be suspicious");
             claim.setFraudFlagInformation(flagInformation);
             claimRepository.save(claim);
         }
+    }
+
+    private boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
+        return previousClaims.stream().anyMatch(Claim::getFraudFlag);
+    }
+
+    private void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
+        LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
+        LocalDate dateOfJoining = userDetails.getDateJoining();
+
+        if (dateOfJoining.isAfter(dateOfClaimSubmission.minusDays(2))) {
+            processFraudBasedOnClaimSubmissionDate(claim, flagInformation);
+        }
+    }
+
+    private void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
+        claim.setFraudFlag(true);
+        flagInformation = appendToFlagInformation(flagInformation,
+                "Claim was made within 2 days of joining insurance plan");
+        claim.setFraudFlagInformation(flagInformation);
+        claimRepository.save(claim);
     }
 
     private String appendToFlagInformation(String flagInformation, String message) {
