@@ -19,13 +19,13 @@ public class InsuranceclaimApplication {
 
 	 // Code to create test accounts. RUN ONCE ONLY!
 
-	//@Bean
-	//CommandLineRunner runner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-	//	return args -> {
-	//		userRepository.save(new User("user", passwordEncoder.encode("password"), "ROLE_USER"));
-	//		//userRepository.save(new User("agent", passwordEncoder.encode("password"), "ROLE_AGENT"));
-	//		userRepository.save(new User("admin", passwordEncoder.encode("password"), "ROLE_ADMIN"));
-	//	};
-	//}
+//	@Bean
+//	CommandLineRunner runner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+//		return args -> {
+//			userRepository.save(new User("user", passwordEncoder.encode("password"), "ROLE_USER"));
+//			//userRepository.save(new User("agent", passwordEncoder.encode("password"), "ROLE_AGENT"));
+//			userRepository.save(new User("admin", passwordEncoder.encode("password"), "ROLE_ADMIN"));
+//		};
+//	}
 
 }
