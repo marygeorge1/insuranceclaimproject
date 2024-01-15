@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -61,6 +62,8 @@ public class InsuranceApplicationMVCTests {
     private AdminViewNewClaimsService adminViewNewClaimsService;
     @MockBean
     private UserClaimStatusService userClaimStatusService;
+    @MockBean
+    private InsurancePremiumService insurancePremiumService;
 
     @Test
     @DisplayName("Test login page")
