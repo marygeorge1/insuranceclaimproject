@@ -29,24 +29,6 @@ public class AdminDataVisualizationController {
         this.claimRepository = claimRepository;
     }
 
-    /*@GetMapping("/viewClaimsData")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String adminViewClaimsData(Model model) {
-        List<Claim> submittedClaims = claimService.findAllClaims();
-        model.addAttribute("claims", submittedClaims);
-        return "admin-view-claims-data";
-    }*/
-
-    @GetMapping("/viewClaimData/{claimId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
-        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
-        Claim claim = claimRepository.findById(claimId).get();
-        model.addAttribute("claim", claim);
-        model.addAttribute("customerDetail", customerDetail);
-        return "admin-view-all-claim-details";
-    }
-
     @GetMapping("/viewClaimsData")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminViewClaimsData(Model model,
@@ -56,6 +38,16 @@ public class AdminDataVisualizationController {
         model.addAttribute("claims", submittedClaims);
         model.addAttribute("sortOrder", sortOrder.equals("asc") ? "desc" : "asc"); // toggle sorting order for next click
         return "admin-view-claims-data";
+    }
+
+    @GetMapping("/viewClaimData/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
+        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
+        Claim claim = claimRepository.findById(claimId).get();
+        model.addAttribute("claim", claim);
+        model.addAttribute("customerDetail", customerDetail);
+        return "admin-view-all-claim-details";
     }
 
 }
