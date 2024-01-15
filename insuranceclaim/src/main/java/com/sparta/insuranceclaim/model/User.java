@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = 50)
     private String role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_details_id")
     private CustomerDetail customerDetails;
 
