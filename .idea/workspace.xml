@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="finished premium calculator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" afterDir="false" />
+=======
+    <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+>>>>>>> dev
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +37,19 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+>>>>>>> dev
   <component name="ProjectId" id="2aiyfx3rQuueLTH2dEi2e7AoncV" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,15 +64,22 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "dev",
     "last_directory_selection": "C:/Users/Will/IdeaProjects/insuranceclaimproject/insuranceclaim/src/main/java/com/sparta/insuranceclaim",
+<<<<<<< HEAD
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+=======
+    "last_opened_file_path": "C:/Users/ruyak/OneDrive/Documents/Sparta Global/Aegon Project/insuranceclaimproject/insuranceclaim",
+>>>>>>> dev
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -161,6 +186,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1704815800878</updated>
+      <workItem from="1705077596293" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="finished premium calculator">
       <option name="closed" value="true" />
@@ -173,6 +199,7 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+<<<<<<< HEAD
   <component name="VcsManagerConfiguration">
     <MESSAGE value="finished premium calculator" />
     <option name="LAST_COMMIT_MESSAGE" value="finished premium calculator" />
@@ -187,5 +214,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+=======
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+>>>>>>> dev
   </component>
 </project>

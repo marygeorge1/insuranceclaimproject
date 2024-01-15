@@ -11,7 +11,7 @@ public class CarAccidentClaim {
     }
 
     public int getAge() {
-       return new CustomerDetail().getAge();
+        return new CustomerDetail().getAge();
     }
 
     public int getCarValue() {
@@ -22,10 +22,7 @@ public class CarAccidentClaim {
         return new CustomerDetail().getGender();
     }
     public LocalDate getDateJoined(){
-    return new CustomerDetail().getDateJoining();
+        return new CustomerDetail().getDateJoining();
     }
-
-
-
 
 }

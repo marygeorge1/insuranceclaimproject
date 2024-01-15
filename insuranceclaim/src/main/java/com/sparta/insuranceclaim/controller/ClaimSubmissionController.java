@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ClaimSubmissionController {
-    private  ClaimRepository claimRepository;
-    private  UserRepository userRepository;
-private ClaimService claimService;
 
-    public ClaimSubmissionController(ClaimRepository claimRepository, UserRepository userRepository, ClaimService claimService) {
-        this.claimRepository = claimRepository;
-        this.userRepository = userRepository;
+private final ClaimService claimService;
+
+    public ClaimSubmissionController(ClaimService claimService) {
         this.claimService = claimService;
     }
 
@@ -40,8 +37,8 @@ private ClaimService claimService;
             return "claimform";
         }
         User loggedInUser=(User)authentication.getPrincipal();
-        claimService.addClaim(claim,loggedInUser);
+        claim = claimService.addClaim(claim,loggedInUser);
+        claimService.detectFraud(claim);
         return "claimform";
-
     }
 }
