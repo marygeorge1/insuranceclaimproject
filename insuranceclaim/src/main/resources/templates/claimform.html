@@ -8,10 +8,10 @@
 </head>
 <body>
 <div th:insert="(~{navbar.html})"></div>
+<h1 class="title">Claim Submission Form</h1>
 <div class="container">
     <br>
     <div class="row text-center">
-    <h1>Claim Submission Form</h1>
     </div>
     <br>
     <form th:action="@{/claim/create}" th:object="${claim}" method="post">
