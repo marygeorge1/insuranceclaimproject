@@ -7,6 +7,8 @@ import com.sparta.insuranceclaim.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class InsurancePremiumService {
 
@@ -22,12 +24,26 @@ public class InsurancePremiumService {
         //getting the customer details
         CustomerDetail customerDetail=getCustomerDetails(userId);
         // for age
+        baseAmount += customerDetail.getCarValue()*0.0025;
         double ageFactorAmount=ageFactor(baseAmount,customerDetail.getAge());
+        double drivingYearsOfExperienceFactorAmount=drivingYearsOfExperienceFactor(baseAmount,customerDetail.getDrivingYoe());
+        double carAgeFactorAmount=carAgeFactor(baseAmount,customerDetail.getVehicleYear());
+        double speedingFactorAmount=speedingFactor(baseAmount,customerDetail.getSpeedingViolations());
+        double duiFactorAmount=duiFactor(baseAmount,customerDetail.getDuis());
+        double accidentFactorAmount=accidentFactor(baseAmount,customerDetail.getPreviousAccidents());
+        double loyaltyFactorAmount=loyaltyFactor(baseAmount,customerDetail.getDateJoining());
+
+
         //
 
-
-
-        return 0.0;
+        return baseAmount
+                +ageFactorAmount
+                +drivingYearsOfExperienceFactorAmount
+                +carAgeFactorAmount
+                +speedingFactorAmount
+                +duiFactorAmount
+                +accidentFactorAmount
+                +loyaltyFactorAmount;
     }
 
     public  CustomerDetail getCustomerDetails(Integer userId){
@@ -44,24 +60,52 @@ public class InsurancePremiumService {
 
     public double drivingYearsOfExperienceFactor(double baseAmount,int drivingYearsOfExperience){
 
-        double drivingYearsOfExperienceFactor=0.0;
        if(drivingYearsOfExperience<=10){
-           //System.out.println(baseAmount+baseAmount*((10-drivingYearsOfExperience)/100));
-           //baseAmount=baseAmount+baseAmount*((10.0-drivingYearsOfExperience)/100);
-           drivingYearsOfExperienceFactor=baseAmount*((10.0-drivingYearsOfExperience)/100);
-
+           return baseAmount*((10.0-drivingYearsOfExperience)/100);
        }
-       else if(drivingYearsOfExperience>10 && drivingYearsOfExperience<20){
-
-            //baseAmount=baseAmount-baseAmount*((drivingYearsOfExperience%10)*0.5/100);
-           drivingYearsOfExperienceFactor=baseAmount*((drivingYearsOfExperience%10)*0.5/100);
+       if( drivingYearsOfExperience<20){
+           return baseAmount*((drivingYearsOfExperience%10)*0.5/100);
        }
-       else if(drivingYearsOfExperience>=20){
-           //baseAmount=baseAmount-(baseAmount*0.05);
-           drivingYearsOfExperienceFactor=(baseAmount*0.05);
-       }
-        return drivingYearsOfExperienceFactor;
+       return(baseAmount*0.05);
     }
+    public double carAgeFactor (double baseAmount,int vehicleYear){
+        double carAge =  LocalDate.now().getYear()- vehicleYear;
+        if(carAge>20)
+            return baseAmount*0.1;
+        if(carAge>10)
+            return baseAmount*0.05;
+        if(carAge>5)
+            return baseAmount*0.02;
+        return 0;
+    }
+    public double speedingFactor(double baseAmount, int speedingViolations){
+        if(speedingViolations>5)
+            return baseAmount*0.05;
+        if(speedingViolations>=2)
+            return baseAmount*0.02;
+        if(speedingViolations==1)
+            return baseAmount*0.005;
+        return 0;
+    }
+    public double duiFactor(double baseAmount, int duiAmount){
+        if(duiAmount>1)
+            return baseAmount*0.4;
+        if(duiAmount==1)
+            return baseAmount*0.2;
+        return 0;
+    }
+    public double accidentFactor(double baseAmount, int numberOfAccidents){
+        return baseAmount*numberOfAccidents*0.01;
+    }
+public double loyaltyFactor(double baseAmount, LocalDate dateOfJoining)
+{
+    int yearsOfService = dateOfJoining.until(LocalDate.now()).getYears();
+    if(yearsOfService<=10)
+        return baseAmount*yearsOfService*0.01;
+    return baseAmount*0.1;
+}
+
+
 
 
 }

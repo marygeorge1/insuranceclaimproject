@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/insuranceclaim/insuranceclaim.iml" filepath="$PROJECT_DIR$/insuranceclaim/insuranceclaim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/insuranceclaimproject.iml" filepath="$PROJECT_DIR$/.idea/insuranceclaimproject.iml" />
     </modules>
   </component>
 </project>
