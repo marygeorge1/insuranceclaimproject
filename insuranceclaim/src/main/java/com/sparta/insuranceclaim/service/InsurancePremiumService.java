@@ -43,8 +43,34 @@ public class InsurancePremiumService {
                 +speedingFactorAmount
                 +duiFactorAmount
                 +accidentFactorAmount
-                +loyaltyFactorAmount;
+                -loyaltyFactorAmount;
     }
+    public double getInsurancePremiumAmount(CustomerDetail customerDetail){
+        double baseAmount=500;
+
+        baseAmount += customerDetail.getCarValue()*0.0025;
+        double ageFactorAmount=ageFactor(baseAmount,customerDetail.getAge());
+        double drivingYearsOfExperienceFactorAmount=drivingYearsOfExperienceFactor(baseAmount,customerDetail.getDrivingYoe());
+        double carAgeFactorAmount=carAgeFactor(baseAmount,customerDetail.getVehicleYear());
+        double speedingFactorAmount=speedingFactor(baseAmount,customerDetail.getSpeedingViolations());
+        double duiFactorAmount=duiFactor(baseAmount,customerDetail.getDuis());
+        double accidentFactorAmount=accidentFactor(baseAmount,customerDetail.getPreviousAccidents());
+        double loyaltyFactorAmount=loyaltyFactor(baseAmount,customerDetail.getDateJoining());
+
+      baseAmount  +=ageFactorAmount;
+        baseAmount        +=drivingYearsOfExperienceFactorAmount;
+        baseAmount        +=carAgeFactorAmount;
+        baseAmount        +=speedingFactorAmount;
+        baseAmount        +=duiFactorAmount;
+        baseAmount        +=accidentFactorAmount;
+        baseAmount        -=loyaltyFactorAmount;
+        //
+
+        return baseAmount;
+
+    }
+
+
 
     public  CustomerDetail getCustomerDetails(Integer userId){
         return userRepository.findById(userId).get().getCustomerDetails();
@@ -64,9 +90,9 @@ public class InsurancePremiumService {
            return baseAmount*((10.0-drivingYearsOfExperience)/100);
        }
        if( drivingYearsOfExperience<20){
-           return baseAmount*((drivingYearsOfExperience%10)*0.5/100);
+           return -baseAmount*((drivingYearsOfExperience%10)*0.5/100);
        }
-       return(baseAmount*0.05);
+       return(-baseAmount*0.05);
     }
     public double carAgeFactor (double baseAmount,int vehicleYear){
         double carAge =  LocalDate.now().getYear()- vehicleYear;

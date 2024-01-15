@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/insuranceclaimproject_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/insuranceclaimproject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="finished premium calculator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" afterDir="false" />
@@ -71,7 +62,23 @@
       <recent name="com.sparta.insuranceclaim" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.InsurancePremiumServiceTests.loyaltyFactorTest">
+  <component name="RunManager" selected="JUnit.InsurancePremiumServiceTests">
+    <configuration name="InsurancePremiumServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="totalPremiumTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InsurancePremiumServiceTests.accidentFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="insuranceclaim" />
       <extension name="coverage">
@@ -88,7 +95,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InsurancePremiumServiceTests.carAgeExperienceFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InsurancePremiumServiceTests.drivingYearsOfExperienceFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="insuranceclaim" />
       <extension name="coverage">
         <pattern>
@@ -98,23 +105,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
       <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
-      <option name="METHOD_NAME" value="carAgeExperienceFactorTest(int,double)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InsurancePremiumServiceTests.duiFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="insuranceclaim" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
-      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
-      <option name="METHOD_NAME" value="duiFactorTest(int,double)" />
+      <option name="METHOD_NAME" value="drivingYearsOfExperienceFactorTest(int,double)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -136,7 +127,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InsurancePremiumServiceTests.speedingFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InsurancePremiumServiceTests.totalPremiumTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="insuranceclaim" />
       <extension name="coverage">
         <pattern>
@@ -146,7 +137,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
       <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
-      <option name="METHOD_NAME" value="speedingFactorTest(int,double)" />
+      <option name="METHOD_NAME" value="totalPremiumTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -154,11 +145,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.InsurancePremiumServiceTests" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.totalPremiumTest" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.drivingYearsOfExperienceFactorTest" />
         <item itemvalue="JUnit.InsurancePremiumServiceTests.loyaltyFactorTest" />
         <item itemvalue="JUnit.InsurancePremiumServiceTests.accidentFactorTest" />
-        <item itemvalue="JUnit.InsurancePremiumServiceTests.duiFactorTest" />
-        <item itemvalue="JUnit.InsurancePremiumServiceTests.speedingFactorTest" />
-        <item itemvalue="JUnit.InsurancePremiumServiceTests.carAgeExperienceFactorTest" />
       </list>
     </recent_temporary>
   </component>
@@ -171,6 +162,30 @@
       <option name="presentableId" value="Default" />
       <updated>1704815800878</updated>
     </task>
+    <task id="LOCAL-00001" summary="finished premium calculator">
+      <option name="closed" value="true" />
+      <created>1705333271078</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705333271078</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="finished premium calculator" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished premium calculator" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
