@@ -99,6 +99,40 @@ public class Claim {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "display_notification")
+    private Boolean displayNotification;
+
+    @Column(name = "fraud_flag")
+    private Boolean fraudFlag;
+
+    @Size(max = 500)
+    @Column(name = "fraud_flag_information", length = 500)
+    private String fraudFlagInformation;
+
+    public String getFraudFlagInformation() {
+        return fraudFlagInformation;
+    }
+
+    public void setFraudFlagInformation(String fraudFlagInformation) {
+        this.fraudFlagInformation = fraudFlagInformation;
+    }
+
+    public Boolean getFraudFlag() {
+        return fraudFlag;
+    }
+
+    public void setFraudFlag(Boolean fraudFlag) {
+        this.fraudFlag = fraudFlag;
+    }
+
+    public Boolean getDisplayNotification() {
+        return displayNotification;
+    }
+
+    public void setDisplayNotification(Boolean displayNotification) {
+        this.displayNotification = displayNotification;
+    }
+
     public User getUser() {
         return user;
     }

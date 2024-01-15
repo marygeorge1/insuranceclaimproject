@@ -1,6 +1,7 @@
 package com.sparta.insuranceclaim.service;
 
 import com.sparta.insuranceclaim.model.Claim;
+import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,47 @@ public class ClaimService {
 
     public Optional<Claim> findClaimById(int id) {
        return claimRepository.findById(id);
+    }
+
+    public void detectFraud(Claim claim) {
+
+       User user = claim.getUser();
+       CustomerDetail userDetails = user.getCustomerDetails();
+       int numberOfClaimsFromUser = claimRepository.findByUser(user).size();
+       String flagInformation = claim.getFraudFlagInformation();
+
+       // Suspicious if number of claims > 3
+       if(numberOfClaimsFromUser > 3) {
+           claim.setFraudFlag(true);
+           claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Number of previous claims exceeds 3"));
+           claimRepository.save(claim);
+       }
+
+       // Suspicious if previously submitted claim was found suspicious
+        List<Claim> previousClaims = claimRepository.findByUser(user);
+        for(Claim previousClaim : previousClaims) {
+            if(previousClaim.getFraudFlag()) {
+                claim.setFraudFlag(true);
+                claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Claimant has a previously submitted claim that was found to be suspicious"));
+                claimRepository.save(claim);
+            }
+        }
+
+        // Suspicious if claim submitted within few days of joining insurance
+        LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
+        LocalDate dateOfJoining = userDetails.getDateJoining();
+        if (dateOfJoining.isAfter(dateOfClaimSubmission.minusDays(2))) {
+            claim.setFraudFlag(true);
+            claim.setFraudFlagInformation(appendToFlagInformation(flagInformation, "Claim was made within 2 days of joining insurance plan"));
+            claimRepository.save(claim);
+        }
+    }
+
+    private String appendToFlagInformation(String flagInformation, String message) {
+        if (!flagInformation.isEmpty()) {
+            flagInformation += "\n";
+        }
+        return flagInformation += message;
     }
 
 }
