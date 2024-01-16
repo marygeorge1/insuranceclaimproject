@@ -1,6 +1,7 @@
 package com.sparta.insuranceclaim;
 
 import com.sparta.insuranceclaim.model.Claim;
+import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.repository.CustomerDetailRepository;
 import com.sparta.insuranceclaim.repository.UserRepository;
@@ -23,11 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,6 +62,8 @@ public class InsuranceApplicationMVCTests {
     private AdminViewNewClaimsService adminViewNewClaimsService;
     @MockBean
     private UserClaimStatusService userClaimStatusService;
+    @MockBean
+    private InsurancePremiumService insurancePremiumService;
 
     @Test
     @DisplayName("Test login page")
@@ -81,13 +87,35 @@ public class InsuranceApplicationMVCTests {
     }
 
     @Test
-    @DisplayName("Test home page gets 200")
+    @DisplayName("Test login page gets 200")
     void testHomePage200() throws Exception {
         int status = mockMvc.perform(MockMvcRequestBuilders.get("/login"))
                 .andReturn()
                 .getResponse()
                 .getStatus();
-        Assertions.assertEquals(200,status);
+        assertEquals(200,status);
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("Test homepage for user page gets 200")
+    void testHomePageUser200() throws Exception {
+        int status = mockMvc.perform(MockMvcRequestBuilders.get("/homepage/user"))
+                .andReturn()
+                .getResponse()
+                .getStatus();
+        assertEquals(200,status);
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("Test homepage for admin page gets 200")
+    void testHomePageAdmin200() throws Exception {
+        int status = mockMvc.perform(MockMvcRequestBuilders.get("/homepage/admin"))
+                .andReturn()
+                .getResponse()
+                .getStatus();
+        assertEquals(200,status);
     }
 
     @Test
@@ -98,7 +126,7 @@ public class InsuranceApplicationMVCTests {
                 .andReturn()
                 .getResponse()
                 .getStatus();
-        Assertions.assertEquals(200,status);
+        assertEquals(200,status);
     }
 
     @Test
@@ -109,7 +137,7 @@ public class InsuranceApplicationMVCTests {
                 .andReturn()
                 .getResponse()
                 .getStatus();
-        Assertions.assertEquals(200,status);
+        assertEquals(200,status);
     }
 
     @Test
@@ -132,6 +160,12 @@ public class InsuranceApplicationMVCTests {
     @DisplayName("test that new claim form created code 201")
     void testNewClaimFormCreated201() throws Exception {
         this.mockMvc.perform(get("/claim/create")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void testNewClaimView200() throws Exception {
+        this.mockMvc.perform(get("/new-claims?")).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
@@ -158,40 +192,4 @@ public class InsuranceApplicationMVCTests {
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
-    //@Test
-    //@Transactional
-    //public void testSuccessfulLogin() throws Exception {
-    //    // Arrange
-    //    String username = "user";
-    //    String password = "password";
-//
-    //    // Assuming you have a user registered with these credentials in your application
-    //    String encodedPassword = passwordEncoder.encode(password);
-//
-    //    // Act and Assert
-    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
-    //                    .param("username", username)
-    //                    .param("password", password))
-    //            .andExpect(MockMvcResultMatchers.status().isOk());
-    //}
-//
-    //@Test
-    //public void testFailedLogin() throws Exception {
-    //    // Arrange
-    //    String username = "invalidUser";
-    //    String password = "invalidPassword";
-//
-    //    // Act and Assert
-    //    mockMvc.perform(MockMvcRequestBuilders.post("/login")
-    //                    .param("username", username)
-    //                    .param("password", password))
-    //            .andExpect(MockMvcResultMatchers.status().isUnauthorized());
-    //}
-//
-    //@Test
-    //public void testLogout() throws Exception {
-    //    // Act and Assert
-    //    mockMvc.perform(MockMvcRequestBuilders.post("/logout"))
-    //            .andExpect(MockMvcResultMatchers.status().isOk());
-    //}
 }
