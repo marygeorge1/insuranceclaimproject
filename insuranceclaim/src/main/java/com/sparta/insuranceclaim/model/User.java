@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Table(name = "user")
@@ -34,6 +33,18 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = 50)
     private String role;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_details_id")
+    private CustomerDetail customerDetails;
+
+    public CustomerDetail getCustomerDetails() {
+        return customerDetails;
+    }
+
+    public void setCustomerDetails(CustomerDetail customerDetails) {
+        this.customerDetails = customerDetails;
+    }
+
     public User() {}
 
     public User(String username, String password, String role) {
@@ -50,11 +61,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
