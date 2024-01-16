@@ -186,6 +186,19 @@ class InsuranceclaimApplicationTests {
 		return claim;
 	}
 
+	@Test
+	public void testProcessFraudBasedOnNumberOfClaims() {
+		Claim claim = new Claim();
+		List<Claim> claimsWithinAYear = Collections.emptyList();
+		String flagInformation = "";
+
+		claimService.processFraudBasedOnNumberOfClaims(claim, claimsWithinAYear, flagInformation);
+
+		Mockito.verify(claimRepository).save(claim);
+		assertTrue(claim.getFraudFlag());
+		assertEquals("Number of claims within 1 year exceeds 3.", claim.getFraudFlagInformation());
+	}
+
 
 	//TESTING USER CLAIM STATUS SERVICE
 	@Test

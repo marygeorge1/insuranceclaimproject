@@ -29,7 +29,6 @@
 <table style="width: 75%; margin-left: 10rem; border-color: black" class="table table-bordered">
     <thead>
     <tr>
-        <th><a th:href="@{/viewClaimsData(sortField='id', sortOrder=${sortOrder == 'asc' ? 'desc' : 'asc'})}">ID</a></th>
         <th><a th:href="@{/viewClaimsData(sortField='referenceId', sortOrder=${sortOrder == 'asc' ? 'desc' : 'asc'})}">Reference ID</a></th>
         <th><a th:href="@{/viewClaimsData(sortField='firstName', sortOrder=${sortOrder == 'asc' ? 'desc' : 'asc'})}">First Name</a></th>
         <th><a th:href="@{/viewClaimsData(sortField='lastName', sortOrder=${sortOrder == 'asc' ? 'desc' : 'asc'})}">Last Name</a></th>
@@ -44,7 +43,6 @@
     </thead>
     <tbody>
     <tr th:each="claim : ${claims}">
-        <td th:text="${claim.id}"></td>
         <td th:text="${claim.referenceId}"></td>
         <td th:text="${claim.firstName}"></td>
         <td th:text="${claim.lastName}"></td>

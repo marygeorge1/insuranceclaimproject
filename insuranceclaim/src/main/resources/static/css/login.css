@@ -92,6 +92,7 @@ input{
     margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
+    color: darkblue;
 }
 ::placeholder{
     color: #e5e5e5;

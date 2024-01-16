@@ -70,7 +70,7 @@ public class ClaimService {
         detectFraudBasedOnClaimSubmissionDate(claim, userDetails, flagInformation);
     }
 
-    private void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    public void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
         List<Claim> claimsWithinAYear = getClaimsWithinAYear(claim, previousClaims);
         int numberOfClaimsWithin1Year = claimsWithinAYear.size();
 
@@ -89,7 +89,7 @@ public class ClaimService {
         return claimsWithinAYear;
     }
 
-    private void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
+    public void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3.");
         claim.setFraudFlagInformation(flagInformation);
@@ -100,7 +100,7 @@ public class ClaimService {
         }
     }
 
-    private void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
+    public void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
         claimWithinAYear.setFraudFlag(true);
         String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
         if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3.")) {
@@ -110,7 +110,7 @@ public class ClaimService {
         claimRepository.save(claimWithinAYear);
     }
 
-    private void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    public void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
         if (hasPreviousSuspiciousClaim(previousClaims)) {
             claim.setFraudFlag(true);
             flagInformation = appendToFlagInformation(flagInformation,
@@ -120,11 +120,11 @@ public class ClaimService {
         }
     }
 
-    private boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
+    public boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
         return previousClaims.stream().anyMatch(Claim::getFraudFlag);
     }
 
-    private void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
+    public void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
         LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
         LocalDate dateOfJoining = userDetails.getDateJoining();
 
@@ -133,7 +133,7 @@ public class ClaimService {
         }
     }
 
-    private void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
+    public void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation,
                 "Claim was made within 2 days of joining insurance plan.");
@@ -141,7 +141,7 @@ public class ClaimService {
         claimRepository.save(claim);
     }
 
-    private String appendToFlagInformation(String flagInformation, String message) {
+    public String appendToFlagInformation(String flagInformation, String message) {
         if (!flagInformation.isEmpty()) {
             flagInformation += "\n";
         }
