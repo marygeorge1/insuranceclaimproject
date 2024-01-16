@@ -35,8 +35,10 @@ public class AdminViewNewClaimsController {
     public String approveClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("approved", claimId);
         Claim claim=userClaimStatusService.getClaimById(claimId);
-        claim.setDisplayNotificationCustomer(true);
-        userClaimStatusService.saveClaim(claim);
+        if (claim != null) {
+            claim.setDisplayNotificationCustomer(true);
+            userClaimStatusService.saveClaim(claim);
+        }
         return "redirect:/new-claims";
     }
 
@@ -44,8 +46,10 @@ public class AdminViewNewClaimsController {
     public String denyClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("denied", claimId);
         Claim claim=userClaimStatusService.getClaimById(claimId);
-        claim.setDisplayNotificationCustomer(true);
-        userClaimStatusService.saveClaim(claim);
+        if (claim != null) {
+            claim.setDisplayNotificationCustomer(true);
+            userClaimStatusService.saveClaim(claim);
+        }
         return "redirect:/new-claims";
     }
 
