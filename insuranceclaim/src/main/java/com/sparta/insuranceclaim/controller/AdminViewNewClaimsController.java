@@ -38,6 +38,11 @@ public class AdminViewNewClaimsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String approveClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("approved", claimId);
+        Claim claim=userClaimStatusService.getClaimById(claimId);
+        if (claim != null) {
+            claim.setDisplayNotificationCustomer(true);
+            userClaimStatusService.saveClaim(claim);
+        }
         return "redirect:/new-claims";
     }
 
@@ -45,8 +50,12 @@ public class AdminViewNewClaimsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String denyClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("denied", claimId);
+        Claim claim=userClaimStatusService.getClaimById(claimId);
+        if (claim != null) {
+            claim.setDisplayNotificationCustomer(true);
+            userClaimStatusService.saveClaim(claim);
+        }
         return "redirect:/new-claims";
-
     }
 
     @GetMapping("/flag/{claimId}")
