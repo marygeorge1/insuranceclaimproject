@@ -6,6 +6,7 @@ import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.repository.UserRepository;
 import com.sparta.insuranceclaim.service.UserClaimStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class UserClaimStatusController {
     private UserClaimStatusService userClaimStatusService;
 
     @GetMapping("/all-claims")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String getAllClaims(Model model, Authentication authentication){
 
         User loggedInUser=(User)authentication.getPrincipal();
@@ -33,6 +35,7 @@ public class UserClaimStatusController {
     }
 
     @GetMapping("/claims/{claimId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String showClaimDetails(@PathVariable Integer claimId,Model model){
         Claim claim=userClaimStatusService.getClaimById(claimId);
         model.addAttribute("claim",claim);
