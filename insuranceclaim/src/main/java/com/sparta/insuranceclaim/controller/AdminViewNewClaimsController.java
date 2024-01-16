@@ -34,14 +34,18 @@ public class AdminViewNewClaimsController {
     @GetMapping("/approve/{claimId}")
     public String approveClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("approved", claimId);
-
+        Claim claim=userClaimStatusService.getClaimById(claimId);
+        claim.setDisplayNotificationCustomer(true);
+        userClaimStatusService.saveClaim(claim);
         return "admin-new-claims";
     }
 
     @GetMapping("/deny/{claimId}")
     public String denyClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("denied", claimId);
-
+        Claim claim=userClaimStatusService.getClaimById(claimId);
+        claim.setDisplayNotificationCustomer(true);
+        userClaimStatusService.saveClaim(claim);
         return "admin-new-claims";
     }
 
