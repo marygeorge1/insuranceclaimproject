@@ -78,7 +78,7 @@ public class ClaimService {
         }
     }
 
-    private List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
+    public List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
         List<Claim> claimsWithinAYear = new ArrayList<>();
         for (Claim previousClaim : previousClaims) {
             if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {

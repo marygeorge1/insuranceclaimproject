@@ -23,8 +23,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @WebMvcTest
 public class InsuranceApplicationControllerTests {
@@ -59,14 +62,11 @@ public class InsuranceApplicationControllerTests {
     @Test
     @WithMockUser
     public void testShowClaimDetailsAdmin() throws Exception {
-        // Prepare a dummy claim for testing
         Claim dummyClaim = new Claim();
-        dummyClaim.setId(1); // Set the claim ID as needed
+        dummyClaim.setId(1);
 
-        // Mock the behavior of userClaimStatusService.getClaimById
         Mockito.when(userClaimStatusService.getClaimById(1)).thenReturn(dummyClaim);
 
-        // Perform a GET request to your endpoint
         mockMvc.perform(MockMvcRequestBuilders.get("/view/claims/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("claim"))
@@ -76,44 +76,45 @@ public class InsuranceApplicationControllerTests {
     @Test
     @WithMockUser
     public void testApproveClaim() throws Exception {
-        // Perform a GET request to your endpoint with a claimId
-        mockMvc.perform(MockMvcRequestBuilders.get("/approve/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("admin-new-claims"));
+        int claimId = 123;
+        Claim dummyClaim = new Claim();
+        Mockito.when(userClaimStatusService.getClaimById(claimId)).thenReturn(dummyClaim);
 
-        // Verify that the updateClaimStatus method was called with the correct arguments
-        Mockito.verify(adminViewNewClaimsService, times(1)).updateClaimStatus("approved", 1);
+        mockMvc.perform(MockMvcRequestBuilders.get("/approve/{claimId}", claimId))
+                .andExpect(redirectedUrl("/new-claims"));
+
+        Mockito.verify(adminViewNewClaimsService).updateClaimStatus("approved", claimId);
+        Mockito.verify(userClaimStatusService).saveClaim(dummyClaim);
     }
 
     @Test
     @WithMockUser
     public void testDenyClaim() throws Exception {
-        // Perform a GET request to your endpoint with a claimId
-        mockMvc.perform(MockMvcRequestBuilders.get("/deny/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("admin-new-claims"));
+        int claimId = 123;
+        Claim dummyClaim = new Claim();
+        Mockito.when(userClaimStatusService.getClaimById(claimId)).thenReturn(dummyClaim);
 
-        // Verify that the updateClaimStatus method was called with the correct arguments
-        Mockito.verify(adminViewNewClaimsService, times(1)).updateClaimStatus("denied", 1);
+        mockMvc.perform(MockMvcRequestBuilders.get("/deny/{claimId}", claimId))
+                .andExpect(redirectedUrl("/new-claims"));
+
+        Mockito.verify(adminViewNewClaimsService).updateClaimStatus("denied", claimId);
+        Mockito.verify(userClaimStatusService).saveClaim(dummyClaim);
     }
 
     @Test
     @WithMockUser
     public void testFlagClaim() throws Exception {
-        // Perform a GET request to your endpoint with a claimId
-        mockMvc.perform(MockMvcRequestBuilders.get("/flag/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("admin-new-claims"));
+        int claimId = 1;
+        mockMvc.perform(MockMvcRequestBuilders.get("/flag/{claimId}", claimId))
+                .andExpect(redirectedUrl("/new-claims"));
 
-        // Verify that the updateClaimStatus method was called with the correct arguments
-        Mockito.verify(adminViewNewClaimsService, times(1)).updateClaimStatus("flagged", 1);
+        Mockito.verify(adminViewNewClaimsService).updateClaimStatus("flagged", claimId);
     }
 
     //Claim Submission Controller
     @Test
     @WithMockUser
     public void testGetCreateForm() throws Exception {
-        // Perform a GET request to your endpoint
         mockMvc.perform(MockMvcRequestBuilders.get("/claim/create"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("claim"))
@@ -132,14 +133,11 @@ public class InsuranceApplicationControllerTests {
     public void testLogin() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/login"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        //.andExpect(MockMvcResultMatchers.view().name("login"))
-        //.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("logoutMessage", "incorrectDetails"));
     }
 
     @Test
     @WithMockUser
     public void testLoginWithLogout() throws Exception {
-        // Perform a GET request to your endpoint with logout parameter
         mockMvc.perform(MockMvcRequestBuilders.get("/login?logout=true"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("login"))
@@ -175,14 +173,11 @@ public class InsuranceApplicationControllerTests {
     @Test
     @WithMockUser
     public void testShowClaimDetailsUser() throws Exception {
-        // Prepare a dummy claim for testing
         Claim dummyClaim = new Claim();
-        dummyClaim.setId(1); // Set the claim ID as needed
+        dummyClaim.setId(1);
 
-        // Mock the behavior of userClaimStatusService.getClaimById
         Mockito.when(userClaimStatusService.getClaimById(1)).thenReturn(dummyClaim);
 
-        // Perform a GET request to your endpoint
         mockMvc.perform(MockMvcRequestBuilders.get("/claims/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("claim"))

@@ -16,17 +16,22 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 class InsuranceclaimApplicationTests {
@@ -36,18 +41,18 @@ class InsuranceclaimApplicationTests {
 	private static CustomerDetailRepository customerDetailRepository;
 	@Mock
 	private static UserRepository userRepository;
-	@Mock
-	private static ClaimService claimService;
-	@Mock
-	private static AdminDataService adminDataService;
-	@Mock
-	private static AuthenticationService authenticationService;
-	@Mock
-	private static RegisterService registerService;
-	@Mock
-	private static AdminViewNewClaimsService adminViewNewClaimsService;
-	@Mock
-	private static UserClaimStatusService userClaimStatusService;
+	@InjectMocks
+	private ClaimService claimService;
+	@InjectMocks
+	private AdminDataService adminDataService;
+	@InjectMocks
+	private AuthenticationService authenticationService;
+	@InjectMocks
+	private RegisterService registerService;
+	@InjectMocks
+	private AdminViewNewClaimsService adminViewNewClaimsService;
+	@InjectMocks
+	private UserClaimStatusService userClaimStatusService;
 
 	@InjectMocks
 	private ServiceLayer serviceLayer;
@@ -130,6 +135,16 @@ class InsuranceclaimApplicationTests {
 		assertEquals(claimRepository.findAll(), new ArrayList<Claim>());
 	}
 
+	//TESTING ADMIN VIEW NEW CLAIMS SERVICE
+	@Test
+	public void testGetAllNewClaims() {
+		Claim dummyClaim = createTestClaim();
+		ArrayList<Claim> claims = new ArrayList<Claim>();
+		Mockito.when(claimRepository.findAllByClaimStatus("submitted")).thenReturn(claims);
+		List<Claim> testClaims = adminViewNewClaimsService.getAllNewClaims();
+		assertEquals(testClaims,claims);
+	}
+
 	//TESTING CLAIMS SERVICE
 	@Test
 	public void testGetAllClaimsService() {
@@ -145,33 +160,84 @@ class InsuranceclaimApplicationTests {
 		assertEquals(dummyClaim, testClaim);
 	}
 
-
-	//TESTING ADMIN DATA SERVICE TESTS
 	@Test
-	public void testGetCustomerDetailsByClaimId() {
-		CustomerDetail dummyCD = createTestCustomerDetail();
-		Claim dummyClaim = createTestClaim();
-		User dummyUser = dummyClaim.getUser();
+	public void testGetClaimsWithinAYear() {
+		Claim claim = new Claim();
+		claim.setDateOfSubmission(LocalDate.now());
 
-		Mockito.when(adminDataService.getCustomerDetailByClaimId(1)).thenReturn(dummyCD);
-		CustomerDetail testCD = dummyUser.getCustomerDetails();
-		Mockito.verify(adminDataService, Mockito.times(1)).getCustomerDetailByClaimId(1);
+		List<Claim> previousClaims = new ArrayList<>();
+		previousClaims.add(createClaimWithSubmissionDate(LocalDate.now().minusDays(180)));  // within a year
+		previousClaims.add(createClaimWithSubmissionDate(LocalDate.now().minusYears(2))); // outside a year
+		previousClaims.add(createClaimWithSubmissionDate(LocalDate.now().minusDays(30)));  // within a year
 
-		System.out.println("Expected: " + dummyCD);
-		System.out.println("Actual: " + testCD);
-		assertEquals(dummyCD, testCD);
+		List<Claim> claimsWithinAYear = claimService.getClaimsWithinAYear(claim, previousClaims);
+
+		assertEquals(2, claimsWithinAYear.size());
 	}
 
-	//TESTING ADMIN VIEW NEW CLAIMS SERVICE
-	@Test
-	@DisplayName("all new claims with the claim status being submitted")
-	public void testGetAllNewClaims() {
-		Claim dummyClaim = createTestClaim();
-		ArrayList<Claim> claims = new ArrayList<Claim>();
-		Mockito.when(claimRepository.findAllByClaimStatus("submitted")).thenReturn(claims);
-		List<Claim> testClaims = adminViewNewClaimsService.getAllNewClaims();
-		assertEquals(testClaims,claims);
+	private Claim createClaimWithSubmissionDate(LocalDate date) {
+		Claim claim = new Claim();
+		claim.setDateOfSubmission(date);
+		return claim;
 	}
+
+
+	//TESTING USER CLAIM STATUS SERVICE
+	@Test
+	public void testGetClaimByIdUserClaimStatusService() {
+		Claim dummyClaim = createTestClaim();
+		Mockito.when(claimRepository.findById(1)).thenReturn(Optional.of(dummyClaim));
+		Claim testClaim = userClaimStatusService.getClaimById(dummyClaim.getId());
+		assertEquals(dummyClaim,testClaim);
+	}
+
+	@Test
+	public void testGetAllClaimsUserClaimStatusService() {
+		assertEquals(userClaimStatusService.getAllClaims(),new ArrayList<Claim>());
+	}
+
+	@Test
+	public void testGetAllClaimByLoggedInUser_ClaimsFound() {
+		User loggedInUser = new User();
+		Claim claim1 = new Claim();
+		Claim claim2 = new Claim();
+
+		Mockito.when(claimRepository.findByUser(loggedInUser)).thenReturn(List.of(claim1, claim2));
+		List<Claim> claims = userClaimStatusService.getAllClaimByLoggedInUser(loggedInUser);
+		assertEquals(2, claims.size());
+	}
+	@Test
+	public void testGetAllClaimByLoggedInUser_NoClaimsFound() {
+		User loggedInUser = new User();
+		Mockito.when(claimRepository.findByUser(loggedInUser)).thenReturn(Collections.emptyList());
+		List<Claim> claims = userClaimStatusService.getAllClaimByLoggedInUser(loggedInUser);
+		assertEquals(0, claims.size());
+	}
+	@Test
+	public void testSaveClaimUserClaimStatusService() {
+		Claim dummyClaim = createTestClaim();
+		Mockito.when(claimRepository.save(dummyClaim)).thenReturn(dummyClaim);
+		userClaimStatusService.saveClaim(dummyClaim);
+		Mockito.verify(claimRepository, Mockito.times(1)).save(dummyClaim);
+	}
+
+//
+//
+	////TESTING ADMIN DATA SERVICE TESTS
+	//@Test
+	//public void testGetCustomerDetailsByClaimId() {
+	//	CustomerDetail dummyCD = createTestCustomerDetail();
+	//	Claim dummyClaim = createTestClaim();
+	//	User dummyUser = dummyClaim.getUser();
+//
+	//	Mockito.when(adminDataService.getCustomerDetailByClaimId(1)).thenReturn(dummyCD);
+	//	CustomerDetail testCD = dummyUser.getCustomerDetails();
+	//	Mockito.verify(adminDataService, Mockito.times(1)).getCustomerDetailByClaimId(1);
+//
+	//	System.out.println("Expected: " + dummyCD);
+	//	System.out.println("Actual: " + testCD);
+	//	assertEquals(dummyCD, testCD);
+	//}
 
 	//TESTING AUTHENTICATION SERVICE
 	//@Test
@@ -180,33 +246,12 @@ class InsuranceclaimApplicationTests {
 	//	User dummyUser = createTestUser();
 //
 	//	Mockito.when(userRepository.findByUsername("JohnDoe")).thenReturn(Optional.of(dummyUser));
-	//
+	//	User testUser = (User)authenticationService.loadUserByUsername(dummyUser.getUsername());
+//
+	//	assertEquals(dummyUser, testUser);
 	//}
 
 	//TESTING REGISTER SERVICE
-	//@Test
-	//@WithMockUser
-	//public void testCreateNewUser() {
-	//	User newUser = new User("JaneSmith","password","ROLE_USER");
-	//	Mockito.when(userRepository.save(newUser)).thenReturn(newUser);
-//
-	//	UserDTO newUserDTO = new UserDTO();
-	//	newUserDTO.setUsername("JaneSmith");
-	//	newUserDTO.setPassword("password");
-	//	User createdUser = registerService.createNewUser(newUserDTO);
-//
-	//	System.out.println("Expected: " + newUser);
-	//	System.out.println("Actual: " + createdUser);
-//
-	//	assertEquals(newUser, createdUser);
-	//}
 
-	//TESTING USER CLAIM STATUS SERVICE
-	//@Test
-	//public void testGetClaimByIdUserClaimStatusService() {
-	//	Claim dummyClaim = createTestClaim();
-	//	Mockito.when(claimRepository.findById(1)).thenReturn(Optional.of(dummyClaim));
-	//	Claim testClaim = userClaimStatusService.getClaimById(dummyClaim.getId());
-	//	assertEquals(dummyClaim,testClaim);
-	//}
+
 }

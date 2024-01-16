@@ -66,7 +66,6 @@ public class LoginController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/homepage/admin")
     public String adminHomepage(Model model, Authentication authentication) {
-        User loggedInUser = (User) authentication.getPrincipal();
         // Need to get all claims, not just by user, all claims
         // Also, go through all claims that are new and set admin flag to false in this case
         List<Claim> allClaims = userClaimStatusService.getAllClaims();
