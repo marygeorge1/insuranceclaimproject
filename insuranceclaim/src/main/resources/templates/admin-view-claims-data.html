@@ -11,6 +11,21 @@
 <div th:insert="(~{navbar.html})"></div>
 
 <h2 class="title">Admin Claims Data</h2>
+<div id="searchForm" style="padding-left: 10rem">
+    <form method="get" th:action="@{/viewClaimsData(searchField = 'searchField', searchTerm = 'searchTerm')}">
+        <label for="searchField">Column to search</label>
+        <select id="searchField" name="searchField">
+            <option value="First Name">First Name</option>
+            <option value="Last Name">Last Name</option>
+            <option value="Reference ID">Reference ID</option>
+            <option value="Email">Email</option>
+            <option value="Car Registration">Car Registration</option>
+            <option value="Claim Status">Claim Status</option>
+        </select>
+        <input type="text" id="searchTerm" name="searchTerm" value="" />
+        <input type="submit" value="Search" />
+    </form>
+</div>
 <table style="width: 75%; margin-left: 10rem; border-color: black" class="table table-bordered">
     <thead>
     <tr>
