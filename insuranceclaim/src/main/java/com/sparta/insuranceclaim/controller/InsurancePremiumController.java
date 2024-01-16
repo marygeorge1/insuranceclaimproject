@@ -13,10 +13,9 @@ public class InsurancePremiumController {
     @Autowired
     private InsurancePremiumService insurancePremiumService;
 
-    @GetMapping("/insurance-premium/{userId}")
-    public String getInsurancePremiumAmount(@PathVariable Integer userId, Model model){
-        double premiumAmountForTheUser=insurancePremiumService.getInsurancePremiumAmount(userId);
-        model.addAttribute("premium",premiumAmountForTheUser);
+    @GetMapping("/insurance-premium/{customerDetailId}")
+    public String getInsurancePremiumAmount(@PathVariable Integer customerDetailId, Model model){
+
         return "";
     }
 }

@@ -16,13 +16,10 @@ public class InsurancePremiumService {
     @Autowired
     private CustomerDetailRepository customerDetailRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public double getInsurancePremiumAmount(Integer userId){
+    public String getInsurancePremiumAmount(Integer customerDetailId){
          double baseAmount=500;
         //getting the customer details
-        CustomerDetail customerDetail=getCustomerDetails(userId);
+        CustomerDetail customerDetail=getCustomerDetails(customerDetailId);
         // for age
         baseAmount += customerDetail.getCarValue()*0.0025;
         double ageFactorAmount=ageFactor(baseAmount,customerDetail.getAge());
@@ -33,10 +30,7 @@ public class InsurancePremiumService {
         double accidentFactorAmount=accidentFactor(baseAmount,customerDetail.getPreviousAccidents());
         double loyaltyFactorAmount=loyaltyFactor(baseAmount,customerDetail.getDateJoining());
 
-
-        //
-
-        return baseAmount
+        double predictedPremium = baseAmount
                 +ageFactorAmount
                 +drivingYearsOfExperienceFactorAmount
                 +carAgeFactorAmount
@@ -44,6 +38,8 @@ public class InsurancePremiumService {
                 +duiFactorAmount
                 +accidentFactorAmount
                 -loyaltyFactorAmount;
+
+        return String.format("%,.2f", predictedPremium);
     }
     public double getInsurancePremiumAmount(CustomerDetail customerDetail){
         double baseAmount=500;
@@ -72,8 +68,8 @@ public class InsurancePremiumService {
 
 
 
-    public  CustomerDetail getCustomerDetails(Integer userId){
-        return userRepository.findById(userId).get().getCustomerDetails();
+    public  CustomerDetail getCustomerDetails(Integer customerDetailId){
+        return customerDetailRepository.findById(customerDetailId).get();
     }
 
     public double ageFactor(double baseAmount,int age){
