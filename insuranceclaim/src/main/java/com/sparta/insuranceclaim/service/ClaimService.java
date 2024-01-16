@@ -4,7 +4,6 @@ import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
-import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,25 +18,27 @@ public class ClaimService {
 
     private final ClaimRepository claimRepository;
 
-   @Autowired public ClaimService(ClaimRepository claimRepository) {
+    @Autowired
+    public ClaimService(ClaimRepository claimRepository) {
         this.claimRepository = claimRepository;
     }
 
-    private String generateRefferenceNumber(Claim claim){
-       String refferenceNo = "";
-       refferenceNo=refferenceNo.concat(claim.getFirstName().substring(0,1));
-       refferenceNo=refferenceNo.concat(claim.getLastName().substring(0,1));
-       refferenceNo+= claim.getDateOfIncident().getYear();
-       refferenceNo+= claim.getDateOfIncident().getMonthValue();
-       refferenceNo+= claim.getDateOfIncident().getDayOfMonth();
-       refferenceNo+= claim.getDateOfSubmission().getYear();
-       refferenceNo+= claim.getDateOfSubmission().getMonthValue();
-       refferenceNo+= claim.getDateOfSubmission().getDayOfMonth();
-        refferenceNo+= claim.getCarRegistration().substring(0,3);
+    private String generateRefferenceNumber(Claim claim) {
+        String refferenceNo = "";
+        refferenceNo = refferenceNo.concat(claim.getFirstName().substring(0, 1));
+        refferenceNo = refferenceNo.concat(claim.getLastName().substring(0, 1));
+        refferenceNo += claim.getDateOfIncident().getYear();
+        refferenceNo += claim.getDateOfIncident().getMonthValue();
+        refferenceNo += claim.getDateOfIncident().getDayOfMonth();
+        refferenceNo += claim.getDateOfSubmission().getYear();
+        refferenceNo += claim.getDateOfSubmission().getMonthValue();
+        refferenceNo += claim.getDateOfSubmission().getDayOfMonth();
+        refferenceNo += claim.getCarRegistration().substring(0, 3);
 
-       return refferenceNo;
+        return refferenceNo;
     }
-    public Claim addClaim (Claim claim, User loggedInUser) {
+
+    public Claim addClaim(Claim claim, User loggedInUser) {
         claim.setDateOfSubmission(LocalDate.now());
         claim.setReferenceId(generateRefferenceNumber(claim));
         claim.setClaimStatus("submitted");
@@ -49,11 +50,11 @@ public class ClaimService {
     }
 
     public List<Claim> findAllClaims() {
-       return claimRepository.findAll();
+        return claimRepository.findAll();
     }
 
     public Optional<Claim> findClaimById(Integer id) {
-       return claimRepository.findById(id);
+        return claimRepository.findById(id);
     }
 
     public void detectFraud(Claim claim) {
@@ -147,8 +148,7 @@ public class ClaimService {
         return flagInformation += message;
     }
 
-    public List<Claim> findAllClaimsSorted(String sortField, String sortOrder) {
-        List<Claim> claims = claimRepository.findAll(); // Assuming you have a claimRepository
+    public List<Claim> findClaimsSorted(List<Claim> claims, String sortField, String sortOrder) {
 
         Comparator<Claim> comparator;
 
@@ -191,5 +191,54 @@ public class ClaimService {
         }
 
         return claims;
+    }
+
+    public List<Claim> searchClaims(String attribute, String value) {
+        List<Claim> claims = claimRepository.findAll();
+        if (value.isEmpty()) {
+            return claims;
+        }
+
+        List<Claim> result = new ArrayList<>();
+
+        for (Claim claim : claims) {
+            switch (attribute.toLowerCase()) {
+                case "first name":
+                    if (claim.getFirstName().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "last name":
+                    if (claim.getLastName().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "car registration":
+                    if (claim.getCarRegistration().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "email":
+                    if (claim.getEmail().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "reference id":
+                    if (claim.getReferenceId().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "claim status":
+                    if (claim.getClaimStatus().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid attribute");
+            }
+        }
+
+        return result;
     }
 }

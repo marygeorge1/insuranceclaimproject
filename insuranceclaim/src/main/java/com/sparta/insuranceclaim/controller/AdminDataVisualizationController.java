@@ -38,9 +38,12 @@ public class AdminDataVisualizationController {
     @GetMapping("/viewClaimsData")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminViewClaimsData(Model model,
+                                      @RequestParam(defaultValue = "First Name") String searchField,
+                                      @RequestParam(defaultValue = "") String searchTerm,
                                       @RequestParam(defaultValue = "id") String sortField,
                                       @RequestParam(defaultValue = "asc") String sortOrder) {
-        List<Claim> submittedClaims = claimService.findAllClaimsSorted(sortField, sortOrder);
+        List<Claim> submittedClaims= claimService.searchClaims(searchField, searchTerm);
+        submittedClaims = claimService.findClaimsSorted(submittedClaims, sortField, sortOrder);
         model.addAttribute("claims", submittedClaims);
         model.addAttribute("sortOrder", sortOrder.equals("asc") ? "desc" : "asc"); // toggle sorting order for next click
         return "admin-view-claims-data";
