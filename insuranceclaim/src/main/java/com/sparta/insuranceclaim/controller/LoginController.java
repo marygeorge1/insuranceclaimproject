@@ -52,7 +52,9 @@ public class LoginController {
 
     private boolean processClaimsForNotification(List<Claim> submittedClaims) {
         for (Claim claim : submittedClaims) {
-            if (claim.getDisplayNotificationCustomer()) {
+            if (claim != null
+                    && claim.getDisplayNotificationCustomer() != null
+                    && claim.getDisplayNotificationCustomer()) {
                 claim.setDisplayNotificationCustomer(false);
                 userClaimStatusService.saveClaim(claim);
                 return true;
@@ -75,7 +77,9 @@ public class LoginController {
 
     private boolean processClaimsForAdminNotification(List<Claim> allClaims) {
         for (Claim claim : allClaims) {
-            if (claim.getDisplayNotificationAdmin()) {
+            if (claim != null
+                    && claim.getDisplayNotificationAdmin() != null
+                    && claim.getDisplayNotificationAdmin()) {
                 claim.setDisplayNotificationAdmin(false);
                 userClaimStatusService.saveClaim(claim);
                 return true;
