@@ -138,6 +138,7 @@ class InsuranceclaimApplicationTests {
 		assertEquals(claimRepository.findAll(), new ArrayList<Claim>());
 	}
 
+
 	//TESTING ADMIN VIEW NEW CLAIMS SERVICE
 	@Test
 	public void testGetAllNewClaims() {
@@ -147,6 +148,7 @@ class InsuranceclaimApplicationTests {
 		List<Claim> testClaims = adminViewNewClaimsService.getAllNewClaims();
 		assertEquals(testClaims,claims);
 	}
+
 
 	//TESTING CLAIMS SERVICE
 	@Test
@@ -224,42 +226,15 @@ class InsuranceclaimApplicationTests {
 		Mockito.verify(claimRepository, Mockito.times(1)).save(dummyClaim);
 	}
 
-//
-//
-	////TESTING ADMIN DATA SERVICE TESTS
-	//@Test
-	//public void testGetCustomerDetailsByClaimId() {
-	//	CustomerDetail dummyCD = createTestCustomerDetail();
-	//	Claim dummyClaim = createTestClaim();
-	//	User dummyUser = dummyClaim.getUser();
-//
-	//	Mockito.when(adminDataService.getCustomerDetailByClaimId(1)).thenReturn(dummyCD);
-	//	CustomerDetail testCD = dummyUser.getCustomerDetails();
-	//	Mockito.verify(adminDataService, Mockito.times(1)).getCustomerDetailByClaimId(1);
-//
-	//	System.out.println("Expected: " + dummyCD);
-	//	System.out.println("Actual: " + testCD);
-	//	assertEquals(dummyCD, testCD);
-	//}
-
-	//TESTING AUTHENTICATION SERVICE
-	//@Test
-	//@DisplayName("test loading user by username")
-	//public void testLoadUserByUsername() {
-	//	User dummyUser = createTestUser();
-//
-	//	Mockito.when(userRepository.findByUsername("JohnDoe")).thenReturn(Optional.of(dummyUser));
-	//	User testUser = (User)authenticationService.loadUserByUsername(dummyUser.getUsername());
-//
-	//	assertEquals(dummyUser, testUser);
-	//}
-
 	//TESTING REGISTER SERVICE
 	@Test
-	public void testCreateNewUser_Success() {
+	public void testCreateNewUser() {
 		UserDTO dummyUser = new UserDTO();
 		dummyUser.setUsername("testuser");
 		dummyUser.setPassword("testpassword");
+
+		CustomerDetail dummyCD = createTestCustomerDetail();
+		Mockito.when(customerDetailRepository.findById(dummyCD.getId())).thenReturn(Optional.of(dummyCD));
 
 		Mockito.when(encoder.encode(dummyUser.getPassword())).thenReturn("encodedPassword");
 
