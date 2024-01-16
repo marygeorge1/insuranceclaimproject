@@ -68,7 +68,7 @@ public class ClaimService {
         detectFraudBasedOnClaimSubmissionDate(claim, userDetails, flagInformation);
     }
 
-    private void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    public void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
         List<Claim> claimsWithinAYear = getClaimsWithinAYear(claim, previousClaims);
         int numberOfClaimsWithin1Year = claimsWithinAYear.size();
 
@@ -77,7 +77,7 @@ public class ClaimService {
         }
     }
 
-    private List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
+    public List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
         List<Claim> claimsWithinAYear = new ArrayList<>();
         for (Claim previousClaim : previousClaims) {
             if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {
@@ -87,7 +87,7 @@ public class ClaimService {
         return claimsWithinAYear;
     }
 
-    private void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
+    public void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3.");
         claim.setFraudFlagInformation(flagInformation);
@@ -98,7 +98,7 @@ public class ClaimService {
         }
     }
 
-    private void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
+    public void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
         claimWithinAYear.setFraudFlag(true);
         String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
         if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3.")) {
@@ -108,7 +108,7 @@ public class ClaimService {
         claimRepository.save(claimWithinAYear);
     }
 
-    private void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    public void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
         if (hasPreviousSuspiciousClaim(previousClaims)) {
             claim.setFraudFlag(true);
             flagInformation = appendToFlagInformation(flagInformation,
@@ -118,11 +118,11 @@ public class ClaimService {
         }
     }
 
-    private boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
+    public boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
         return previousClaims.stream().anyMatch(Claim::getFraudFlag);
     }
 
-    private void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
+    public void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
         LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
         LocalDate dateOfJoining = userDetails.getDateJoining();
 
@@ -131,7 +131,7 @@ public class ClaimService {
         }
     }
 
-    private void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
+    public void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation,
                 "Claim was made within 2 days of joining insurance plan.");
@@ -139,16 +139,14 @@ public class ClaimService {
         claimRepository.save(claim);
     }
 
-    private String appendToFlagInformation(String flagInformation, String message) {
+    public String appendToFlagInformation(String flagInformation, String message) {
         if (!flagInformation.isEmpty()) {
             flagInformation += "\n";
         }
         return flagInformation += message;
     }
 
-    public List<Claim> findAllClaimsSorted(String sortField, String sortOrder) {
-        List<Claim> claims = claimRepository.findAll(); // Assuming you have a claimRepository
-
+    public List<Claim> findClaimsSorted(List<Claim> claims, String sortField, String sortOrder) {
         Comparator<Claim> comparator;
 
         switch (sortField.toLowerCase()) {
@@ -190,5 +188,54 @@ public class ClaimService {
         }
 
         return claims;
+    }
+
+    public List<Claim> searchClaims(String attribute, String value) {
+        List<Claim> claims = claimRepository.findAll();
+        if (value.isEmpty()) {
+            return claims;
+        }
+
+        List<Claim> result = new ArrayList<>();
+
+        for (Claim claim : claims) {
+            switch (attribute.toLowerCase()) {
+                case "first name":
+                    if (claim.getFirstName().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "last name":
+                    if (claim.getLastName().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "car registration":
+                    if (claim.getCarRegistration().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "email":
+                    if (claim.getEmail().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "reference id":
+                    if (claim.getReferenceId().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+                case "claim status":
+                    if (claim.getClaimStatus().contains(value)) {
+                        result.add(claim);
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid attribute");
+            }
+        }
+
+        return result;
     }
 }
