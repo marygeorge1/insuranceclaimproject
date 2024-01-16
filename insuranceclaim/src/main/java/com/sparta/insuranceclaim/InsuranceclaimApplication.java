@@ -22,9 +22,9 @@ public class InsuranceclaimApplication {
 //	@Bean
 //	CommandLineRunner runner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 //		return args -> {
-//			userRepository.save(new User("user", passwordEncoder.encode("password"), "ROLE_USER"));
-//			//userRepository.save(new User("agent", passwordEncoder.encode("password"), "ROLE_AGENT"));
 //			userRepository.save(new User("admin", passwordEncoder.encode("password"), "ROLE_ADMIN"));
+//			userRepository.save(new User("user", passwordEncoder.encode("password"), "ROLE_USER"));
+//			/*userRepository.save(new User("agent", passwordEncoder.encode("password"), "ROLE_AGENT"));*/
 //		};
 //	}
 

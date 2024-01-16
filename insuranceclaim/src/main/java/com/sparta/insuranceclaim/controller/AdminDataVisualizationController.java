@@ -6,6 +6,8 @@ import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
 import com.sparta.insuranceclaim.service.AdminDataService;
 import com.sparta.insuranceclaim.service.ClaimService;
+import com.sparta.insuranceclaim.service.InsurancePremiumService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,29 +24,15 @@ public class AdminDataVisualizationController {
     private final AdminDataService adminDataService;
     private final ClaimRepository claimRepository;
 
+    @Autowired
+    private InsurancePremiumService insurancePremiumService;
+
+
     public AdminDataVisualizationController(ClaimService claimService, AdminDataService adminDataService,
                                             ClaimRepository claimRepository) {
         this.claimService = claimService;
         this.adminDataService = adminDataService;
         this.claimRepository = claimRepository;
-    }
-
-    /*@GetMapping("/viewClaimsData")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String adminViewClaimsData(Model model) {
-        List<Claim> submittedClaims = claimService.findAllClaims();
-        model.addAttribute("claims", submittedClaims);
-        return "admin-view-claims-data";
-    }*/
-
-    @GetMapping("/viewClaimData/{claimId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
-        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
-        Claim claim = claimRepository.findById(claimId).get();
-        model.addAttribute("claim", claim);
-        model.addAttribute("customerDetail", customerDetail);
-        return "admin-view-all-claim-details";
     }
 
     @GetMapping("/viewClaimsData")
@@ -56,6 +44,20 @@ public class AdminDataVisualizationController {
         model.addAttribute("claims", submittedClaims);
         model.addAttribute("sortOrder", sortOrder.equals("asc") ? "desc" : "asc"); // toggle sorting order for next click
         return "admin-view-claims-data";
+    }
+
+    @GetMapping("/viewClaimData/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String viewClaimDetails(@PathVariable Integer claimId, Model model) {
+        CustomerDetail customerDetail = adminDataService.getCustomerDetailByClaimId(claimId);
+        Claim claim = claimRepository.findById(claimId).get();
+        model.addAttribute("claim", claim);
+        model.addAttribute("customerDetail", customerDetail);
+
+        // generating insurance premium data
+        String premiumAmountForTheUser=insurancePremiumService.getInsurancePremiumAmount(customerDetail.getId());
+        model.addAttribute("premium", premiumAmountForTheUser);
+        return "admin-view-all-claim-details";
     }
 
 }

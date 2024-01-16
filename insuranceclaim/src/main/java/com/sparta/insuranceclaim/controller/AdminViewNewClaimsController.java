@@ -37,7 +37,7 @@ public class AdminViewNewClaimsController {
         Claim claim=userClaimStatusService.getClaimById(claimId);
         claim.setDisplayNotificationCustomer(true);
         userClaimStatusService.saveClaim(claim);
-        return "admin-new-claims";
+        return "redirect:/new-claims";
     }
 
     @GetMapping("/deny/{claimId}")
@@ -46,13 +46,13 @@ public class AdminViewNewClaimsController {
         Claim claim=userClaimStatusService.getClaimById(claimId);
         claim.setDisplayNotificationCustomer(true);
         userClaimStatusService.saveClaim(claim);
-        return "admin-new-claims";
+        return "redirect:/new-claims";
     }
 
     @GetMapping("/flag/{claimId}")
     public String flagClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("flagged", claimId);
+        return "redirect:/new-claims";
 
-        return "admin-new-claims";
     }
 }

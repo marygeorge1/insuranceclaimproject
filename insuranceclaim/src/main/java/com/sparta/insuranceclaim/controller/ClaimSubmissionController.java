@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 
 import com.sparta.insuranceclaim.service.ClaimService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ClaimSubmissionController {
+
+    Logger log = LoggerFactory.getLogger(getClass());
 
 private final ClaimService claimService;
 
@@ -40,6 +44,7 @@ private final ClaimService claimService;
         User loggedInUser=(User)authentication.getPrincipal();
         claim = claimService.addClaim(claim,loggedInUser);
         claimService.detectFraud(claim);
-        return "claimform";
+
+        return "homepage";
     }
 }

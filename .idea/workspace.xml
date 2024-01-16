@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="finished premium calculator">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/insuranceclaim/src/test/java/com/sparta/insuranceclaim/InsurancePremiumServiceTests.java" afterDir="false" />
+=======
     <list default="true" id="1e385ac6-6e0e-493a-a108-4168a486ef90" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+>>>>>>> dev
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,11 +27,18 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="adminclaims" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+<<<<<<< HEAD
+=======
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -35,6 +49,7 @@
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 5
 }]]></component>
+>>>>>>> dev
   <component name="ProjectId" id="2aiyfx3rQuueLTH2dEi2e7AoncV" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,13 +57,24 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "dev",
     "last_directory_selection": "C:/Users/Will/IdeaProjects/insuranceclaimproject/insuranceclaim/src/main/java/com/sparta/insuranceclaim",
+<<<<<<< HEAD
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+=======
     "last_opened_file_path": "C:/Users/ruyak/OneDrive/Documents/Sparta Global/Aegon Project/insuranceclaimproject/insuranceclaim",
+>>>>>>> dev
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
@@ -61,6 +87,97 @@
       <recent name="com.sparta.insuranceclaim" />
     </key>
   </component>
+  <component name="RunManager" selected="JUnit.InsurancePremiumServiceTests">
+    <configuration name="InsurancePremiumServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="totalPremiumTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancePremiumServiceTests.accidentFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="accidentFactorTest(int,double)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancePremiumServiceTests.drivingYearsOfExperienceFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="drivingYearsOfExperienceFactorTest(int,double)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancePremiumServiceTests.loyaltyFactorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="loyaltyFactorTest(java.time.LocalDate,double)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancePremiumServiceTests.totalPremiumTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="insuranceclaim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sparta.insuranceclaim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.sparta.insuranceclaim" />
+      <option name="MAIN_CLASS_NAME" value="com.sparta.insuranceclaim.InsurancePremiumServiceTests" />
+      <option name="METHOD_NAME" value="totalPremiumTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.InsurancePremiumServiceTests" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.totalPremiumTest" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.drivingYearsOfExperienceFactorTest" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.loyaltyFactorTest" />
+        <item itemvalue="JUnit.InsurancePremiumServiceTests.accidentFactorTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -71,9 +188,35 @@
       <updated>1704815800878</updated>
       <workItem from="1705077596293" duration="20000" />
     </task>
+    <task id="LOCAL-00001" summary="finished premium calculator">
+      <option name="closed" value="true" />
+      <created>1705333271078</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705333271078</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+<<<<<<< HEAD
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="finished premium calculator" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished premium calculator" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/insuranceclaim/src/main/java/com/sparta/insuranceclaim/service/InsurancePremiumService.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+=======
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+>>>>>>> dev
   </component>
 </project>
