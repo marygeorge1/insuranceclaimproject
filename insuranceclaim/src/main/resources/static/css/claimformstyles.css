@@ -22,6 +22,17 @@ body {
   color: #ffffff;
 }
 
+.premium {
+  text-align: center;
+  margin: 2rem auto;
+  width: 50%;
+  font-size: calc(0.5em + 2.6vw);
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-shadow: .022em .022em .022em #111;
+  color: #ffffff;
+}
+
 table {
   background-color: rgba(255, 255, 255, 0.54);
   border:10px black;

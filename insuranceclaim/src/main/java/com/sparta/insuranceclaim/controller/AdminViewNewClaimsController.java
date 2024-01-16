@@ -4,6 +4,7 @@ import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.service.AdminViewNewClaimsService;
 import com.sparta.insuranceclaim.service.UserClaimStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,14 @@ public class AdminViewNewClaimsController {
     UserClaimStatusService userClaimStatusService;
 
     @GetMapping("/new-claims")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAllNewClaims(Model model) {
         model.addAttribute("newClaims", adminViewNewClaimsService.getAllNewClaims());
         return "admin-new-claims";
     }
 
     @GetMapping("/view/claims/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String showClaimDetails(@PathVariable Integer claimId, Model model){
         Claim claim=userClaimStatusService.getClaimById(claimId);
         model.addAttribute("claim",claim);
@@ -32,6 +35,7 @@ public class AdminViewNewClaimsController {
     }
 
     @GetMapping("/approve/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String approveClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("approved", claimId);
         Claim claim=userClaimStatusService.getClaimById(claimId);
@@ -43,6 +47,7 @@ public class AdminViewNewClaimsController {
     }
 
     @GetMapping("/deny/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String denyClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("denied", claimId);
         Claim claim=userClaimStatusService.getClaimById(claimId);
@@ -54,6 +59,7 @@ public class AdminViewNewClaimsController {
     }
 
     @GetMapping("/flag/{claimId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String flagClaim(@PathVariable int claimId) {
         adminViewNewClaimsService.updateClaimStatus("flagged", claimId);
         return "redirect:/new-claims";
