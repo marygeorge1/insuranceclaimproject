@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClaimForm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/claimformstyles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:insert="(~{navbar.html})"></div>
+<h1 class="title">Claim Submission Form</h1>
+<div class="container">
+    <br>
+    <div class="row text-center">
+    </div>
+    <br>
+    <form th:action="@{/claim/create}" th:object="${claim}" method="post">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <!--Driver Details Section starts here-->
+        <div class="row">
+            <div class="col-sm-12"><h3>Driver Details</h3></div>
+            <div class="col-sm-12">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" class="form-control" th:field="*{firstName}">
+                <span  th:if="${#fields.hasErrors('firstName')}" class="error" th:errors="*{firstName}"></span>
+            </div>
+            <div class="col-sm-12">
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" class="form-control">
+                <span  th:if="${#fields.hasErrors('lastName')}" class="error" th:errors="*{lastName}"></span>
+            </div>
+            <div class="col-sm-12">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control">
+                <span  th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}"></span>
+            </div>
+            <div class="col-sm-12">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" name="phoneNumber" id="phoneNumber" class="form-control">
+                <span  th:if="${#fields.hasErrors('phoneNumber')}" class="error" th:errors="*{phoneNumber}"></span>
+            </div>
+        </div>
+            <!--Driver Details Section ends here-->
+            <br>
+            <!--Accident Details Section starts here-->
+            <div class="row">
+                <div class="col-sm-12"><h3>Accident Details</h3></div>
+                <div class="col-sm-12">
+                    <label for="carRegistration">Car Registration Number</label>
+                    <input type="text" name="carRegistration" id="carRegistration" class="form-control">
+                    <span  th:if="${#fields.hasErrors('carRegistration')}" class="error" th:errors="*{carRegistration}"></span>
+                </div>
+                <div class="col-sm-12">
+                    <label for="dateOfIncident">Date and Time of the Accident</label>
+                    <input type="date" name="dateOfIncident" id="dateOfIncident" class="form-control">
+                    <span  th:if="${#fields.hasErrors('dateOfIncident')}" class="error" th:errors="*{dateOfIncident}"></span>
+                </div>
+                <div class="col-sm-12">
+                    <label for="previousClaims">Number of previous claims made</label>
+                    <input type="number" name="previousClaims" id="previousClaims" class="form-control">
+                    <span  th:if="${#fields.hasErrors('previousClaims')}" class="error" th:errors="*{previousClaims}"></span>
+                </div>
+                <div class="col-sm-12">
+                    <label for="injuries">Was anyone Injured ?</label>
+                    <input type="checkbox" name="injuries" id="injuries" >
+                </div>
+                <div class="col-sm-12">
+                    <label for="policeReportReference">If police was involved, provide the police reference number</label>
+                    <input type="text" name="policeReportReference" id="policeReportReference" class="form-control">
+                </div>
+                <div class="col-sm-12">
+                    <label for="fault">Whose fault?</label>
+                    <select id="fault" name="fault" class="form-control">
+                        <option value="" disabled selected>Select</option>
+                        <option value="Driver">Driver</option>
+                        <option value="OtherParty">Other Party</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+            </div>
+            <!--Accident Details Section ends here-->
+            <br>
+            <!--Other Party Details Section starts here-->
+            <div class="row">
+                <div class="col-sm-12"><h3>Other Party Details</h3></div>
+                <div class="col-sm-12">
+                    <label for="otherPartiesDetails">If any other parties were involved, provide the details here</label>
+                    <textarea type="" name="otherPartiesDetails" id="otherPartiesDetails" class="form-control"></textarea>
+                </div>
+            </div>
+            <!--Other Party Details Section ends here-->
+
+            <br>
+            <!--Accident Description Section starts here-->
+            <div class="row">
+                <div class="col-sm-12"><h3>Description of the Accident</h3></div>
+                <div class="col-sm-12">
+                    <label for="incidentDescription">description of accident</label>
+                    <textarea type="" name="incidentDescription" id="incidentDescription" class="form-control"></textarea>
+                </div>
+            </div>
+            <!--Accident Description Section ends here-->
+
+            <!--Accident Description Section starts here-->
+            <div class="row">
+                <!--<div class="col-sm-12"><h3>Description of the Accident</h3></div>-->
+                <div class="col-sm-12">
+                    <label for="imageLink">Any link to the image</label>
+                    <input type="text" name="imageLink" id="imageLink" class="form-control"></input>
+                    <span  th:if="${#fields.hasErrors('imageLink')}" class="error" th:errors="*{imageLink}"></span>
+                </div>
+            </div>
+            <!--Accident Description Section ends here-->
+            <br>
+            <!--submit button starts here-->
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <input type="submit" value="Submit Claim" class="btn btn-primary"></input>
+                </div>
+            </div>
+            <!--submit button ends here-->
+            <br>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
