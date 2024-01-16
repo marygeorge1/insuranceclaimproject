@@ -4,41 +4,39 @@ import com.sparta.insuranceclaim.model.Claim;
 import com.sparta.insuranceclaim.model.CustomerDetail;
 import com.sparta.insuranceclaim.model.User;
 import com.sparta.insuranceclaim.repository.ClaimRepository;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ClaimService {
 
     private final ClaimRepository claimRepository;
 
-    @Autowired
-    public ClaimService(ClaimRepository claimRepository) {
+   @Autowired public ClaimService(ClaimRepository claimRepository) {
         this.claimRepository = claimRepository;
     }
 
-    private String generateRefferenceNumber(Claim claim) {
-        String refferenceNo = "";
-        refferenceNo = refferenceNo.concat(claim.getFirstName().substring(0, 1));
-        refferenceNo = refferenceNo.concat(claim.getLastName().substring(0, 1));
-        refferenceNo += claim.getDateOfIncident().getYear();
-        refferenceNo += claim.getDateOfIncident().getMonthValue();
-        refferenceNo += claim.getDateOfIncident().getDayOfMonth();
-        refferenceNo += claim.getDateOfSubmission().getYear();
-        refferenceNo += claim.getDateOfSubmission().getMonthValue();
-        refferenceNo += claim.getDateOfSubmission().getDayOfMonth();
-        refferenceNo += claim.getCarRegistration().substring(0, 3);
-
-        return refferenceNo;
+    private String generateRefferenceNumber(Claim claim){
+       String refferenceNo = "";
+       Random r = new Random();
+       refferenceNo=refferenceNo.concat(claim.getFirstName().substring(0,1));
+       refferenceNo=refferenceNo.concat(claim.getLastName().substring(0,1));
+       refferenceNo+= claim.getDateOfIncident().getYear();
+       refferenceNo+= claim.getDateOfIncident().getMonthValue();
+       refferenceNo+= claim.getDateOfIncident().getDayOfMonth();
+       refferenceNo+= claim.getDateOfSubmission().getYear();
+       refferenceNo+= claim.getDateOfSubmission().getMonthValue();
+       refferenceNo+= claim.getDateOfSubmission().getDayOfMonth();
+        refferenceNo+= claim.getCarRegistration().substring(0,3);
+        while(!claimRepository.findAllByReferenceId(refferenceNo).isEmpty())
+            refferenceNo+= (char)(r.nextInt(26) + 'a');
+       return refferenceNo;
     }
-
-    public Claim addClaim(Claim claim, User loggedInUser) {
+    public Claim addClaim (Claim claim, User loggedInUser) {
         claim.setDateOfSubmission(LocalDate.now());
         claim.setReferenceId(generateRefferenceNumber(claim));
         claim.setClaimStatus("submitted");
@@ -50,11 +48,11 @@ public class ClaimService {
     }
 
     public List<Claim> findAllClaims() {
-        return claimRepository.findAll();
+       return claimRepository.findAll();
     }
 
     public Optional<Claim> findClaimById(Integer id) {
-        return claimRepository.findById(id);
+       return claimRepository.findById(id);
     }
 
     public void detectFraud(Claim claim) {
@@ -70,7 +68,7 @@ public class ClaimService {
         detectFraudBasedOnClaimSubmissionDate(claim, userDetails, flagInformation);
     }
 
-    public void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    private void detectFraudBasedOnNumberOfClaims(Claim claim, List<Claim> previousClaims, String flagInformation) {
         List<Claim> claimsWithinAYear = getClaimsWithinAYear(claim, previousClaims);
         int numberOfClaimsWithin1Year = claimsWithinAYear.size();
 
@@ -79,7 +77,7 @@ public class ClaimService {
         }
     }
 
-    public List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
+    private List<Claim> getClaimsWithinAYear(Claim claim, List<Claim> previousClaims) {
         List<Claim> claimsWithinAYear = new ArrayList<>();
         for (Claim previousClaim : previousClaims) {
             if (previousClaim.getDateOfSubmission().isAfter(claim.getDateOfSubmission().minusYears(1))) {
@@ -89,7 +87,7 @@ public class ClaimService {
         return claimsWithinAYear;
     }
 
-    public void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
+    private void processFraudBasedOnNumberOfClaims(Claim claim, List<Claim> claimsWithinAYear, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation, "Number of claims within 1 year exceeds 3.");
         claim.setFraudFlagInformation(flagInformation);
@@ -100,7 +98,7 @@ public class ClaimService {
         }
     }
 
-    public void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
+    private void processFraudForClaimWithinAYear(Claim claimWithinAYear, String flagInformation) {
         claimWithinAYear.setFraudFlag(true);
         String previousClaimFlagInformation = claimWithinAYear.getFraudFlagInformation();
         if (!previousClaimFlagInformation.contains("Number of claims within 1 year exceeds 3.")) {
@@ -110,7 +108,7 @@ public class ClaimService {
         claimRepository.save(claimWithinAYear);
     }
 
-    public void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
+    private void detectFraudBasedOnPreviousSuspiciousClaim(Claim claim, List<Claim> previousClaims, String flagInformation) {
         if (hasPreviousSuspiciousClaim(previousClaims)) {
             claim.setFraudFlag(true);
             flagInformation = appendToFlagInformation(flagInformation,
@@ -120,11 +118,11 @@ public class ClaimService {
         }
     }
 
-    public boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
+    private boolean hasPreviousSuspiciousClaim(List<Claim> previousClaims) {
         return previousClaims.stream().anyMatch(Claim::getFraudFlag);
     }
 
-    public void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
+    private void detectFraudBasedOnClaimSubmissionDate(Claim claim, CustomerDetail userDetails, String flagInformation) {
         LocalDate dateOfClaimSubmission = claim.getDateOfSubmission();
         LocalDate dateOfJoining = userDetails.getDateJoining();
 
@@ -133,7 +131,7 @@ public class ClaimService {
         }
     }
 
-    public void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
+    private void processFraudBasedOnClaimSubmissionDate(Claim claim, String flagInformation) {
         claim.setFraudFlag(true);
         flagInformation = appendToFlagInformation(flagInformation,
                 "Claim was made within 2 days of joining insurance plan.");
@@ -141,14 +139,15 @@ public class ClaimService {
         claimRepository.save(claim);
     }
 
-    public String appendToFlagInformation(String flagInformation, String message) {
+    private String appendToFlagInformation(String flagInformation, String message) {
         if (!flagInformation.isEmpty()) {
             flagInformation += "\n";
         }
         return flagInformation += message;
     }
 
-    public List<Claim> findClaimsSorted(List<Claim> claims, String sortField, String sortOrder) {
+    public List<Claim> findAllClaimsSorted(String sortField, String sortOrder) {
+        List<Claim> claims = claimRepository.findAll(); // Assuming you have a claimRepository
 
         Comparator<Claim> comparator;
 
@@ -191,54 +190,5 @@ public class ClaimService {
         }
 
         return claims;
-    }
-
-    public List<Claim> searchClaims(String attribute, String value) {
-        List<Claim> claims = claimRepository.findAll();
-        if (value.isEmpty()) {
-            return claims;
-        }
-
-        List<Claim> result = new ArrayList<>();
-
-        for (Claim claim : claims) {
-            switch (attribute.toLowerCase()) {
-                case "first name":
-                    if (claim.getFirstName().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-                case "last name":
-                    if (claim.getLastName().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-                case "car registration":
-                    if (claim.getCarRegistration().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-                case "email":
-                    if (claim.getEmail().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-                case "reference id":
-                    if (claim.getReferenceId().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-                case "claim status":
-                    if (claim.getClaimStatus().contains(value)) {
-                        result.add(claim);
-                    }
-                    break;
-
-                default:
-                    System.out.println("Invalid attribute");
-            }
-        }
-
-        return result;
     }
 }
