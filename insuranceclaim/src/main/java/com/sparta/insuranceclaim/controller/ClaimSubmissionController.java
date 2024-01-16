@@ -36,6 +36,7 @@ private final ClaimService claimService;
         if(result.hasErrors()){
             return "claimform";
         }
+        claim.setDisplayNotificationAdmin(true);
         User loggedInUser=(User)authentication.getPrincipal();
         claim = claimService.addClaim(claim,loggedInUser);
         claimService.detectFraud(claim);

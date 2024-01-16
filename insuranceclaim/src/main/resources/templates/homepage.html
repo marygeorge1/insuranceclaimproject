@@ -8,15 +8,15 @@
         .custom-notification {
             position: fixed;
             top: 0;
-            right: 8%;
+            right: 0;
             margin: 10px;
             z-index: 1000;
         }
     </style>
     <title>Homepage</title>
 </head>
+
 <body>
-<!-- The notification box -->
 <div th:if="${showNotification}" class="alert alert-success alert-dismissible fade show custom-notification" role="alert">
     Claim Status Updated!
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -43,5 +43,7 @@
             </div>
         </article>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

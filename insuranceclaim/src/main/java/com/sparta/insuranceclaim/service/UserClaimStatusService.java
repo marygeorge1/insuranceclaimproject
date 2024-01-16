@@ -15,12 +15,19 @@ public class UserClaimStatusService {
     @Autowired
     private ClaimRepository claimRepository;
 
-    public List<Claim> getAllClaimByLoggedInUser(User loggedInUser){
+    public List<Claim> getAllClaims() {
+        return claimRepository.findAll();
+    }
 
+    public List<Claim> getAllClaimByLoggedInUser(User loggedInUser) {
         return claimRepository.findByUser(loggedInUser);
     }
 
     public Claim getClaimById(Integer id){
         return claimRepository.findById(id).get();
+    }
+
+    public void saveClaim(Claim claim) {
+        claimRepository.save(claim);
     }
 }

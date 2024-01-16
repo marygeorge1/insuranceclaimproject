@@ -43,25 +43,45 @@ public class LoginController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/homepage/user")
     public String userHomepage(Model model, Authentication authentication) {
-        User loggedInUser = (User)authentication.getPrincipal();
+        User loggedInUser = (User) authentication.getPrincipal();
         List<Claim> submittedClaims = userClaimStatusService.getAllClaimByLoggedInUser(loggedInUser);
-        boolean showNotification = false;
-        for(Claim claim : submittedClaims) {
-            if(claim.getDisplayNotificationCustomer()) {
-                showNotification = true;
-                claim.setDisplayNotificationCustomer(false);
-                claimRepository.save(claim);
-                break;
-            }
-        }
+        boolean showNotification = processClaimsForNotification(submittedClaims);
         model.addAttribute("showNotification", showNotification);
         return "homepage";
     }
 
+    private boolean processClaimsForNotification(List<Claim> submittedClaims) {
+        for (Claim claim : submittedClaims) {
+            if (claim.getDisplayNotificationCustomer()) {
+                claim.setDisplayNotificationCustomer(false);
+                userClaimStatusService.saveClaim(claim);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/homepage/admin")
-    public String adminHomepage() {
+    public String adminHomepage(Model model, Authentication authentication) {
+        User loggedInUser = (User) authentication.getPrincipal();
+        // Need to get all claims, not just by user, all claims
+        // Also, go through all claims that are new and set admin flag to false in this case
+        List<Claim> allClaims = userClaimStatusService.getAllClaims();
+        boolean showNotification = processClaimsForAdminNotification(allClaims);
+        model.addAttribute("showNotification", showNotification);
         return "admin-homepage";
+    }
+
+    private boolean processClaimsForAdminNotification(List<Claim> allClaims) {
+        for (Claim claim : allClaims) {
+            if (claim.getDisplayNotificationAdmin()) {
+                claim.setDisplayNotificationAdmin(false);
+                userClaimStatusService.saveClaim(claim);
+                return true;
+            }
+        }
+        return false;
     }
 
     @PreAuthorize("hasRole('ROLE_AGENT')")
