@@ -69,13 +69,14 @@ public class InsuranceApplicationMVCTests {
     private InsurancePremiumService insurancePremiumService;
 
     @Test
-    @DisplayName("Test login page")
+    @DisplayName("Test login page endpoinmts")
     void testLoginPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/login")).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    @DisplayName("Test register page")
+    @WithMockUser
+    @DisplayName("Test register page endpoints")
     void testRegisterPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/register")).andDo(MockMvcResultHandlers.print());
     }
@@ -214,10 +215,16 @@ public class InsuranceApplicationMVCTests {
     }
 
     @Test
-    @WithMockUser // Use a mock user for an authenticated user
+    @WithMockUser
     public void testAuthenticatedUserAccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/homepage/admin"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testAuthenticatedEndpoint() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/homepage/admin"))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
     @Test
@@ -233,22 +240,14 @@ public class InsuranceApplicationMVCTests {
     }
 
     //@Test
-    //@DisplayName("test succesful login user")
+    //@WithMockUser(username = "user", password = "$2a$10$amz4xCjJOUHEmX9YfZlWnOmyRvD2PZhgVF6OWarT8gYGQ1iZ6FyK", roles = "USER")
     //public void testSuccessfulLogin() throws Exception {
-    //    RequestBuilder requestBuilder = formLogin().user("user").password("password");
-    //    mockMvc.perform(requestBuilder)
-    //            .andDo(print())
-    //            .andExpect(status().isOk());
-    //}
-
-    //@Test
-    //public void testFailedLogin() throws Exception {
     //    mockMvc.perform(MockMvcRequestBuilders.post("/perform_login")
-    //                    .param("user", "invalidUsername")
-    //                    .param("password", "invalidPassword"))
-    //            .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    //                    .param("username", "user")
+    //                    .param("password", "$2a$10$amz4xCjJOUHEmX9YfZlWnOmyRvD2PZhgVF6OWarT8gYGQ1iZ6FyK"))
+    //            .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+    //            .andExpect(MockMvcResultMatchers.redirectedUrl("/home"));
     //}
-
 
 
     //https://spring.io/blog/2014/05/23/preview-spring-security-test-web-security/

@@ -30,8 +30,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class InsuranceclaimApplicationTests {
@@ -198,7 +197,6 @@ class InsuranceclaimApplicationTests {
 		assertTrue(claim.getFraudFlag());
 		assertEquals("Number of claims within 1 year exceeds 3.", claim.getFraudFlagInformation());
 	}
-
 
 	//TESTING USER CLAIM STATUS SERVICE
 	@Test
