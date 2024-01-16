@@ -36,6 +36,9 @@ import static org.mockito.Mockito.times;
 @SpringBootTest
 class InsuranceclaimApplicationTests {
 	@Mock
+	PasswordEncoder encoder;
+
+	@Mock
 	private static ClaimRepository claimRepository;
 	@Mock
 	private static CustomerDetailRepository customerDetailRepository;
@@ -252,6 +255,19 @@ class InsuranceclaimApplicationTests {
 	//}
 
 	//TESTING REGISTER SERVICE
+	@Test
+	public void testCreateNewUser_Success() {
+		UserDTO dummyUser = new UserDTO();
+		dummyUser.setUsername("testuser");
+		dummyUser.setPassword("testpassword");
 
+		Mockito.when(encoder.encode(dummyUser.getPassword())).thenReturn("encodedPassword");
+
+		User newUser = registerService.createNewUser(dummyUser);
+
+		assertEquals(dummyUser.getUsername(), newUser.getUsername());
+		assertEquals("encodedPassword", newUser.getPassword()); // Assuming it's properly encoded
+		assertEquals("ROLE_USER", newUser.getRole());
+	}
 
 }
